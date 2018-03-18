@@ -1,0 +1,21 @@
+/* --  Fonts  --  */
+
+@font-face {
+    font-family: 'Atlas Typewriter Web';
+    src: url('../fonts/AtlasTypewriter-Regular-Web.eot');
+    src: url('../fonts/AtlasTypewriter-Regular-Web.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/AtlasTypewriter-Regular-Web.woff') format('woff');
+    font-weight:  400;
+    font-style:   normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'Grotzec Condensed Bold';
+    src: url('../fonts/GrotzecCond-Bold.eot');
+    src: url('../fonts/GrotzecCond-Bold?#iefix') format('embedded-opentype'),
+        url('../fonts/GrotzecCond-Bold.woff') format('woff');
+    font-weight:  400;
+    font-style:   normal;
+    font-stretch: normal;
+}
