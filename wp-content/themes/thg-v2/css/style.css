@@ -1,0 +1,131 @@
+/*
+  Theme Name: Herald Group v2
+  Theme URI: http://html5blank.com
+  Description: Bootstrap 4 WordPress Theme for Herald Group
+  Version: 2.0.0
+  Author: Eric Sherred (@ericsherred)
+  Author URI: http://ericsherred.com
+  Tags: Bootstrap4, HTML5, CSS3
+
+  License: MIT
+  License URI: http://opensource.org/licenses/mit-license.php
+*/
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css");
+@import url("https://use.typekit.net/bgt0eya.css");
+@import url("https://use.fontawesome.com/releases/v5.0.10/css/all.css");
+.mt-125 {
+  margin-top: calc(3rem + 125px); }
+
+.bg-primary {
+  background-color: #0a6992 !important;
+  border-color: #0a6992 !important; }
+
+.btn {
+  border-width: 0; }
+
+.btn-primary {
+  background-color: rgba(28, 27, 27, 0.5);
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -ms-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease; }
+  .btn-primary:hover {
+    background-color: #0a6992; }
+
+.border-bottom-1 {
+  border-bottom: 1px solid #d2d2d2; }
+
+html, p, div, span {
+  font-family: "akagi-pro", sans-serif; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "source-sans-pro", sans-serif; }
+
+a {
+  color: #1c1b1b;
+  text-decoration: none;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -ms-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease; }
+  a:hover {
+    color: #0a6992;
+    text-decoration: none; }
+  a strong {
+    text-transform: uppercase; }
+
+body header nav.navbar {
+  background-color: #0a6992; }
+  body header nav.navbar .navbar-brand h1 {
+    background-image: url("/img/logo.png");
+    background-size: cover;
+    width: 145px;
+    height: 50px; }
+  body header nav.navbar ul li a {
+    color: #fff; }
+body main {
+  min-height: 300px; }
+body footer section.top {
+  color: #fff; }
+  body footer section.top .footer-img {
+    margin-top: -125px; }
+body footer section.bottom {
+  color: #d2d2d2;
+  font-size: 2rem;
+  font-weight: 300; }
+  body footer section.bottom a {
+    color: #191919; }
+    body footer section.bottom a:hover {
+      text-decoration: none; }
+body.home header nav.navbar {
+  background-color: transparent;
+  padding-bottom: 0px; }
+  body.home header nav.navbar .container {
+    padding-bottom: .5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
+body.home #heroVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -o-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -100; }
+body.home #hero-overlay {
+  background-color: rgba(56, 60, 55, 0.7);
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  position: absolute;
+  z-index: -99; }
+body.home #hero-wrapper {
+  display: table;
+  width: 100%; }
+  body.home #hero-wrapper #hero {
+    position: relative;
+    display: table-cell;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    height: calc(100vh - 95px);
+    color: #fff; }
+body.home section#herald {
+  color: #fff; }
+  body.home section#herald span {
+    color: #0fb6ed; }
+body.home section#services .services {
+  background-size: cover !important;
+  background-position: center center !important;
+  min-height: 500px;
+  max-height: 100vh;
+  color: #fff; }
+body.home section h2 {
+  font-weight: 300;
+  font-size: 2.25rem; }

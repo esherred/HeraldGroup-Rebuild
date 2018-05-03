@@ -1,0 +1,221 @@
+/*
+  Theme Name: Herald Group v2
+  Theme URI: http://html5blank.com
+  Description: Bootstrap 4 WordPress Theme for Herald Group
+  Version: 2.0.0
+  Author: Eric Sherred (@ericsherred)
+  Author URI: http://ericsherred.com
+  Tags: Bootstrap4, HTML5, CSS3
+
+  License: MIT
+  License URI: http://opensource.org/licenses/mit-license.php
+*/
+
+// Colors
+$blue: #0a6992;
+
+$lightblue: #0fb6ed;
+$lightgray: #d2d2d2;
+$darkgray: #191919;
+
+$white: #fff;
+$black: #1c1b1b;
+$black-50: rgba(28,27,27,.5);
+
+// Fonts
+$primary-font: "akagi-pro",sans-serif;
+$header-font: "source-sans-pro",sans-serif;
+
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css");
+@import url("https://use.typekit.net/bgt0eya.css");
+@import url("https://use.fontawesome.com/releases/v5.0.10/css/all.css");
+
+@mixin transition {
+  -webkit-transition: all .5s ease;
+     -moz-transition: all .5s ease;
+      -ms-transition: all .5s ease;
+       -o-transition: all .5s ease;
+          transition: all .5s ease;
+}
+
+// Overrides
+.mt-125 {
+  margin-top: calc(3rem + 125px);
+}
+
+.bg-primary {
+  background-color: $blue !important;
+  border-color: $blue !important;
+}
+
+.btn {
+  border-width: 0;
+}
+
+.btn-primary {
+  background-color: $black-50;
+  @include transition;
+  &:hover {
+    background-color: $blue;
+  }
+}
+
+.border-bottom-1 {
+  border-bottom: 1px solid $lightgray;
+}
+
+html, p, div, span {
+  font-family: $primary-font;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $header-font;
+}
+
+a {
+  color: $black;
+  text-decoration: none;
+  @include transition;
+  &:hover {
+    color: $blue;
+    text-decoration: none;
+  }
+
+  strong {
+    text-transform: uppercase;
+  }
+}
+
+
+// Main Design
+body {
+  header{
+    nav {
+      &.navbar {
+        background-color: $blue;
+        .navbar-brand {
+          h1 {
+            background-image: url('./img/logo.png');
+            background-size: cover;
+            width: 145px;
+            height: 50px;
+          }
+        }
+        ul {
+          li {
+            a {
+              color: $white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  main {
+    min-height: 300px;
+  }
+
+  footer {
+    section {
+      &.top {
+        color: $white;
+        .footer-img {
+          margin-top: -125px;
+        }
+      }
+      &.bottom {
+        color: $lightgray;
+        font-size: 2rem;
+        font-weight: 300;
+        a {
+          color: $darkgray;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+
+
+  &.home {
+    header {
+      nav {
+        &.navbar {
+          background-color: transparent;
+          padding-bottom: 0px;
+          .container {
+            padding-bottom: .5rem;
+            border-bottom: 1px solid rgba(255,255,255,.5);
+          }
+        }
+      }
+    }
+
+    #heroVideo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translateX(-50%) translateY(-50%);
+         -moz-transform: translateX(-50%) translateY(-50%);
+          -ms-transform: translateX(-50%) translateY(-50%);
+           -o-transform: translateX(-50%) translateY(-50%);
+              transform: translateX(-50%) translateY(-50%);
+      min-width: 100%; 
+      min-height: 100%;
+      z-index: -100;
+    }
+    #hero-overlay {
+      background-color: rgba(56,60,55,.7);
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      position: absolute;
+      z-index: -99;
+    }
+    #hero-wrapper{
+      display: table;
+      width: 100%;
+      #hero {
+        position: relative;
+        display: table-cell;
+        text-align: center;
+        top: 0;
+        width: 100%;
+        height: calc(100vh - 95px);
+        color: $white;
+      }
+    }
+
+    section {
+      &#herald {
+        color: $white;
+        span {
+          color: $lightblue;
+        }
+      }
+
+      &#services {
+        .services {
+          background-size: cover !important;
+          background-position: center center !important;
+          min-height: 500px;
+          max-height: 100vh;
+          color: $white;
+
+          .top {
+          }
+          .bottom {
+          }
+        }
+      }
+
+      h2 {
+        font-weight: 300;
+        font-size: 2.25rem;
+      }
+    }
+  }
+}
