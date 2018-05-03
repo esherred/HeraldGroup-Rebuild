@@ -5,19 +5,20 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#hgNavDrop" aria-controls="hgNavDrop" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="hgNavDrop">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-              </li>
-            </ul>
-          </div>
+          <?php
+            wp_nav_menu([
+              'menu'            => 'main',
+              'theme_location'  => 'main',
+              'container'       => 'div',
+              'container_id'    => 'mainNav',
+              'container_class' => 'collapse navbar-collapse justify-content-end',
+              'menu_id'         => false,
+              'menu_class'      => 'navbar-nav',
+              'depth'           => 2,
+              'fallback_cb'     => 'bs4navwalker::fallback',
+              'walker'          => new bs4navwalker()
+            ]);
+          ?>
         </div>
       </nav>
     </header>
