@@ -1,4 +1,4 @@
-<?php /* Template Name: Results Page Template */ get_header( 'gray' ); ?>
+<?php /* Template Name: Cool Stuff Template */ get_header( 'gray' ); ?>
   <main>
     <div class="bg-white">
       <div class="container">
@@ -32,10 +32,8 @@
         </div>
         <?php
           $results_args = array(
-            'post_type' => 'case_studies',
-            'posts_per_page' => -1,
-            'orderby' => 'title',
-            'order' => 'asc'
+            'post_type' => 'post',
+            'posts_per_page' => -1
           );
           $results_query = new WP_Query($results_args);
         ?>
@@ -45,7 +43,7 @@
             <?php while( $results_query->have_posts() ) : $results_query->the_post(); ?>
               <div class="col-3 h-250 p-2">
                 <a href="<?php the_permalink(); ?>">
-                  <div class="masonary-item px-3 py-4 d-table w-100 h-100" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(<?php echo $results_query->get_post_thumbnail() ? $results_query->get_post_thumbnail() : 'http://thg.test/wp-content/uploads/2016/08/Copy-of-IMGP1398.jpg'; ?>);">
+                  <div class="masonary-item px-3 py-4 d-table w-100 h-100" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(<?php the_post_thumbnail_url( 'large' ); ?>);">
                     <div class="d-table-cell align-bottom"><?php the_title(); ?></div>
                   </div>
                 </a>
