@@ -1,66 +1,61 @@
-<?php /* Template Name: What We Do Page Template */ get_header(); ?>
+<?php /* Template Name: What We Do Page Template */ get_header( 'gray' ); ?>
 
-            <div id="masthead" class="masthead masthead--what">
-                <div class="container">
-                    <div class="masthead-body">
-                        <h1><?php the_field('headline'); ?></h1>
-                        <?php if (get_field('subhead')) : ?>
-                            <h3><?php the_field('subhead'); ?></h3>
-                        <?php endif; ?>
-                    </div>
-                    <div class="masthead-footer">
-                        <nav class="page-links">
-                            <a href="#areas-of-expertise">Areas of Expertise</a><span class="divider">|</span>
-                            <a href="#capabilities">Capabilities</a><span class="divider">|</span>
-                            <a href="#our-clients">Our Clients</a>
-                        </nav>
-                    </div>
-                </div>
+  <main>
+    <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+      <div class="bg-white">
+        <div class="container">
+          <div class="row px-5 pt-5 pb-3">
+            <div class="col-12 col-lg-6">
+              <h1><?php the_field('headline'); ?></h1>
             </div>
-
-            <div class="container">
-                <div class="main" role="main">
-                    <section class="section section--what-we-do">
-                        <div class="internal-container">
-                            <div class="services">
-                                <div class="service" id="areas-of-expertise">
-                                    <div class="service-aside">
-                                        <h2>Areas of Expertise</h2>
-                                    </div>
-                                    <div class="service-main">
-                                        <?php the_field('areas_of_expertise'); ?>
-                                    </div>
-                                </div>
-                                <div class="service" id="capabilities">
-                                    <div class="service-aside">
-                                        <h2>Capabilities</h2>
-                                    </div>
-                                    <div class="service-main">
-                                        <div class="accordion accordion--capabilities" id="accordion">
-                                        <?php while(has_sub_field('capabilities')) : ?>
-                                            <div class="acc-segment" id="<?php echo sanitize_title(get_sub_field('capability_title')); ?>">
-                                                <div class="acc-header">
-                                                    <h3><?php the_sub_field('capability_title'); ?></h3>
-                                                </div>
-                                                <div class="acc-contents">
-                                                    <?php the_sub_field('capability_content'); ?>
-                                                </div>
-                                            </div>
-                                        <?php endwhile; ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="service" id="our-clients">
-                                    <div class="service-aside">
-                                        <h2>Our Clients</h2>
-                                    </div>
-                                    <div class="service-main">
-                                        <?php the_field('our_clients'); ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+            <div class="col-12 col-lg-6">
+              <?php if (get_field('subhead')) : ?>
+                <p><?php the_field('subhead'); ?></p>
+              <?php endif; ?>
+            </div>
+          </div>
+          <?php if(get_the_post_thumbnail_url()): ?>
+              <div class="row px-5 py-3">
+                <div class="col-12 text-center">
+                  <img src="<?php the_post_thumbnail_url( 'full' ); ?>" class="img-fluid" alt="">
                 </div>
+              </div>
+          <?php endif; ?>
+        </div>
+      </div>
+      <div class="bg-gray py-5">
+        <section id="services">
+          <div class="container-fluid">
+            <div class="row">
+              <?php 
+                $services = get_field( 'services', 'options' );
+                foreach ( $services as $service ) :
+              ?>
+                <div id="<?php echo $service['service']['title'] ?>" class="col-2 px-1">
+                  <div style="background: linear-gradient(rgba(56,60,65,.6),rgba(56,60,65,.6)), url(http://placekitten.com/305/787);" class="services p-3">
+                    <div class="top">
+                      <i class="fal fa-minus d-block"></i>
+                      <?php echo $service['service']['title'] ?>
+                    </div>
+                    <div class="bottom">
+                      <div class="read">
+                        <div class="read fa-2x">
+                          <span class="fa-layers fa-fw">
+                            <i class="fal fa-square-full" style="color: #fff;"></i>
+                            <i class="fal fa-angle-right" data-fa-transform="shrink-6" style="color: #fff;"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <?php endwhile; endif; ?>
+  </main>
 
 <?php get_footer(); ?>

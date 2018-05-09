@@ -1,36 +1,61 @@
-<?php /* Template Name: Results Page Template */ get_header(); ?>
-
-            <div id="masthead" class="masthead masthead--results">
-                <div class="container">
-                    <div class="masthead-body">
-                        <h1><?php the_field('headline'); ?></h1>
-                        <?php if (get_field('subhead')) : ?>
-                            <h3><?php the_field('subhead'); ?></h3>
-                        <?php endif; ?>
-                    </div>
-                    <div class="masthead-footer">
-                        Take the deep dive into our case studies.
-                    </div>
-                </div>
+<?php /* Template Name: Results Page Template */ get_header( 'gray' ); ?>
+  <main>
+    <div class="bg-white">
+      <div class="container">
+        <?php the_post(); ?>
+        <div class="row p-5">
+          <div class="col-12 col-lg-6">
+            <h1><?php the_field('headline'); ?></h1>
+          </div>
+          <div class="col-12 col-lg-6">
+            <?php if (get_field('subhead')) : ?>
+              <p><?php the_field('subhead'); ?></p>
+            <?php endif; ?>
+          </div>
+        </div>
+        <?php if(get_the_post_thumbnail_url()): ?>
+          <div class="row px-5 py-3">
+            <div class="col-12 text-center">
+              <img src="<?php the_post_thumbnail_url( 'full' ); ?>" class="img-fluid" alt="">
             </div>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+    <div class="bg-gray">
+      <div class="container">
+        <div class="row">
+          <div class="col my-5 text-center">
+            Filters:
+            Filter 1 | Filter 2 | Filter 3
+          </div>
+        </div>
+        <?php
+          $results_args = array(
+            'post_type' => 'case_studies',
+            'posts_per_page' => -1,
+            'orderby' => 'title',
+            'order' => 'asc'
+          );
+          $results_query = new WP_Query($results_args);
+        ?>
 
-            <div class="container">
-                <div class="main" role="main">
-                    <section class="section section--results">
-                        <div class="content-container">
-                            <div class="accordion" id="accordion">
-                            <?php while(has_sub_field('results')) : ?>
-                                <div class="acc-segment">
-                                    <div class="acc-header">
-                                        <h2><?php the_sub_field('result_title'); ?></h2>
-                                    </div>
-                                    <div class="acc-contents">
-                                        <?php the_sub_field('result_content'); ?>
-                                    </div>
-                                </div>
-                            <?php endwhile; ?>
-                        </div>
-                    </section>
-                </div>
-
+        <?php if ( $results_query->have_posts() ) : ?>
+          <div class="row mb-5">
+            <?php while( $results_query->have_posts() ) : $results_query->the_post(); ?>
+              <div class="col-3 h-250 p-2">
+                <a href="<?php the_permalink(); ?>">
+                  <div class="masonary-item px-3 py-4 d-table w-100 h-100" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(http://placekitten.com/500/500);">
+                    <div class="d-table-cell align-bottom"><?php the_title(); ?></div>
+                  </div>
+                </a>
+              </div>
+              
+            <?php endwhile; ?>
+          </div>
+        <?php endif; ?>
+        <?php wp_reset_query(); ?>
+      </div>
+    </div>
+  </main>
 <?php get_footer(); ?>

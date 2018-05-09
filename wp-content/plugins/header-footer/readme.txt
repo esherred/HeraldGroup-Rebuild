@@ -1,8 +1,8 @@
 === Head, Footer and Post Injections ===
-Tags: header, footer, blog, page, single, post, head, tracking, facebook, og meta tag, open graph, ads, adsense, injections, analytics, amp
+Tags: header, footer, blog, page, single, post, head, tracking, facebook, og meta tag, open graph, ads, adsense, injections, analytics, amp, pixel
 Requires at least: 3.0
-Tested up to: 4.7.2
-Stable tag: 3.0.4
+Tested up to: 4.8.2
+Stable tag: 3.1.1
 Donate link: http://www.satollo.net/donations
 Contributors: satollo
 
@@ -16,18 +16,20 @@ remove my plugin, and it's not the case.
 
 = Head and Footer Codes =
 
-Why you have to install 10 plugins to add Google Analytics code, custom
-tracking code, Google Webmaster/Alexa/Bing/Tradedoubler verificaton code (and so on...) 
-on head of footer section of your blog pages?
+Why you have to install 10 plugins to add Google Analytics, Facebook Pixel, custom
+tracking code, Google DFP code, Google Webmaster/Alexa/Bing/Tradedoubler verification code and so on...
 
 With Header and Footer plugin you can just copy the code those services give you
-in a centralized point to manage them all.
+in a centralized point to manage them all. And theme independent: you can change your theme
+without loosing the code injected!
 
-* manage the head section code
-* manage the footer code
-* recognize and execute PHP code to add logic
-* few SEO options
-* mobile detection
+= Injection points and features =
+
+* in the <head> page section where most if the codes are usually added
+* just after the <body> tag as required by some JavaScript SDK (like Facebook)
+* in the page footer (just before the </body> tag)
+* recognize and execute PHP code to add logic to your injections
+* distinct desktop and mobile injections
 
 = AMP =
 
@@ -90,6 +92,30 @@ FAQs are answered on [Header and Footer](http://www.satollo.net/plugins/header-f
 4. Configurable snippets of code to be recalled on other configurations (to save time)
 
 == Changelog ==
+
+= 3.1.1 =
+
+* Privacy section in the readme.txt
+
+= 3.1.0 =
+
+* Removed the Facebook setting (move to a specialized plugin to have the Facebook Open Graph Meta) 
+* Removed bbPress setting (please use bbpress ads)
+* Label fix
+* Removed notices
+* 5 post injections and 5 generic injections
+
+= 3.0.7 =
+
+* Added the filter "hefo_php_exec" to let a third party to disable the PHP execution 
+
+= 3.0.6 =
+
+* Moved the donate png inside the plugin
+
+= 3.0.5 =
+
+* Debug notices fix
 
 = 3.0.4 =
 
@@ -334,3 +360,7 @@ FAQs are answered on [Header and Footer](http://www.satollo.net/plugins/header-f
 = 1.0.3 =
 
 * added the "only home" header text
+
+== Privacy and GDPR ==
+
+This plugin does not collect or process any personal user data.

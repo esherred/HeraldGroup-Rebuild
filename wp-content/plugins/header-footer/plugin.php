@@ -4,7 +4,7 @@
   Plugin Name: Head, Footer and Post Injections
   Plugin URI: http://www.satollo.net/plugins/header-footer
   Description: Header and Footer lets to add html/javascript code to the head and footer and posts of your blog. Some examples are provided on the <a href="http://www.satollo.net/plugins/header-footer">official page</a>.
-  Version: 3.0.4
+  Version: 3.1.1
   Author: Stefano Lissa
   Author URI: http://www.satollo.net
   Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
@@ -65,12 +65,12 @@ $hefo_generic_block = array();
 function hefo_template_redirect() {
     global $hefo_body_block, $hefo_generic_block, $hefo_options, $hefo_is_mobile;
 
-    if ($hefo_is_mobile && $hefo_options['mobile_body_enabled']) {
+    if ($hefo_is_mobile && isset($hefo_options['mobile_body_enabled'])) {
         $hefo_body_block = hefo_execute($hefo_options['mobile_body']);
     } else {
         $hefo_body_block = hefo_execute($hefo_options['body']);
     }
-    for ($i = 1; $i < 4; $i++) {
+    for ($i = 1; $i <= 5; $i++) {
         if ($hefo_is_mobile && isset($hefo_options['mobile_generic_enabled_' . $i])) {
             if (isset($hefo_options['mobile_generic_' . $i]))
                 $hefo_generic_block[$i] = hefo_execute($hefo_options['mobile_generic_' . $i]);
@@ -85,7 +85,7 @@ function hefo_template_redirect() {
 function hefo_callback($buffer) {
     global $hefo_body_block, $hefo_generic_block, $hefo_options, $hefo_is_mobile;
 
-    for ($i = 1; $i < 4; $i++) {
+    for ($i = 1; $i <= 5; $i++) {
         if (isset($hefo_options['generic_tag_' . $i]))
             hefo_insert_before($buffer, $hefo_generic_block[$i], $hefo_options['generic_tag_' . $i]);
     }
@@ -154,9 +154,13 @@ function hefo_wp_head_post() {
 
     $buffer .= hefo_replace($hefo_options['head']);
 
-    ob_start();
-    eval('?>' . $buffer);
-    ob_end_flush();
+    if (apply_filters('hefo_php_exec', true)) {
+        ob_start();
+        eval('?>' . $buffer);
+        ob_end_flush();
+    } else {
+        echo $buffer;
+    }
 }
 
 add_action('amp_post_template_head', 'hefo_amp_post_template_head', 100);
@@ -175,6 +179,15 @@ function hefo_amp_post_template_css() {
     echo "\n";
 }
 
+add_action('amp_post_template_footer', 'hefo_amp_post_template_footer', 100);
+
+function hefo_amp_post_template_footer() {
+    global $hefo_options;
+    echo "\n";
+    echo hefo_execute($hefo_options['amp_footer']);
+    echo "\n";
+}
+
 add_action('wp_footer', 'hefo_wp_footer');
 
 function hefo_wp_footer() {
@@ -188,9 +201,13 @@ function hefo_wp_footer() {
 
     $buffer = hefo_replace($buffer);
 
-    ob_start();
-    eval('?>' . $buffer);
-    ob_end_flush();
+    if (apply_filters('hefo_php_exec', true)) {
+        ob_start();
+        eval('?>' . $buffer);
+        ob_end_flush();
+    } else {
+        echo $buffer;
+    }
 }
 
 // BBPRESS
@@ -330,7 +347,7 @@ function hefo_the_content($content) {
 
 
 
-        for ($i = 1; $i < 4; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             if (empty($hefo_options['inner_tag_' . $i])) {
                 continue;
             }
@@ -339,11 +356,12 @@ function hefo_the_content($content) {
                 $prefix = 'mobile_';
             }
             $skip = trim($hefo_options['inner_skip_' . $i]);
-            if (empty($skip))
+            if (empty($skip)) {
                 $skip = 0;
-            else if (substr($skip, -1) == '%') {
+            } else if (substr($skip, -1) == '%') {
                 $skip = (intval($skip) * strlen($content) / 100);
             }
+
             if ($hefo_options['inner_pos_' . $i] == 'after') {
                 $res = hefo_insert_after($content, hefo_execute($hefo_options[$prefix . 'inner_' . $i]), $hefo_options['inner_tag_' . $i], $skip);
             } else {
@@ -370,7 +388,7 @@ function hefo_insert_before(&$content, $what, $marker, $starting_from = 0) {
     if (strlen($content) < $starting_from) {
         return false;
     }
-    
+
     if (empty($marker)) {
         $marker = ' ';
     }
@@ -383,15 +401,17 @@ function hefo_insert_before(&$content, $what, $marker, $starting_from = 0) {
 }
 
 function hefo_insert_after(&$content, $what, $marker, $starting_from = 0) {
+
     if (strlen($content) < $starting_from) {
         return false;
     }
-    
+
     if (empty($marker)) {
         $marker = ' ';
     }
-    
+
     $x = strpos($content, $marker, $starting_from);
+
     if ($x !== false) {
         $content = substr_replace($content, $what, $x + strlen($marker), 0);
         return true;
@@ -424,8 +444,9 @@ function hefo_replace($buffer) {
     }
 
     for ($i = 1; $i <= 5; $i++) {
-        if (!isset($hefo_options['snippet_' . $i]))
+        if (!isset($hefo_options['snippet_' . $i])) {
             $hefo_options['snippet_' . $i] = '';
+        }
         $buffer = str_replace('[snippet_' . $i . ']', $hefo_options['snippet_' . $i], $buffer);
     }
 
@@ -473,8 +494,10 @@ function hefo_execute($buffer) {
     if (empty($buffer)) {
         return '';
     }
-    ob_start();
-    eval('?>' . $buffer);
-    $buffer = ob_get_clean();
+    if (apply_filters('hefo_php_exec', true)) {
+        ob_start();
+        eval('?>' . $buffer);
+        $buffer = ob_get_clean();
+    }
     return $buffer;
 }

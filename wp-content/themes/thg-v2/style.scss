@@ -18,6 +18,11 @@ $lightblue: #0fb6ed;
 $lightgray: #d2d2d2;
 $darkgray: #191919;
 
+$gray: #eeeeee;
+
+$light-test: #8f9395;
+$main-text: #616161;
+
 $white: #fff;
 $black: #1c1b1b;
 $black-50: rgba(28,27,27,.5);
@@ -28,7 +33,6 @@ $header-font: "source-sans-pro",sans-serif;
 
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css");
 @import url("https://use.typekit.net/bgt0eya.css");
-@import url("https://use.fontawesome.com/releases/v5.0.10/css/all.css");
 
 @mixin transition {
   -webkit-transition: all .5s ease;
@@ -47,6 +51,12 @@ $header-font: "source-sans-pro",sans-serif;
   background-color: $blue !important;
   border-color: $blue !important;
 }
+.bg-gray {
+  background-color: $gray;
+}
+.bg-white {
+  background-color: $white;
+}
 
 .btn {
   border-width: 0;
@@ -64,12 +74,19 @@ $header-font: "source-sans-pro",sans-serif;
   border-bottom: 1px solid $lightgray;
 }
 
-html, p, div, span {
+html {
   font-family: $primary-font;
+  color: $main-text;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $header-font;
+  color: $black;
+  font-weight: 300;
+}
+
+.font-weight-light {
+  font-weight: 300;
 }
 
 a {
@@ -89,13 +106,17 @@ a {
 
 // Main Design
 body {
+  background-color: $white;
+  &.gray {
+    background-color: $gray;
+  }
   header{
     nav {
       &.navbar {
         background-color: $blue;
         .navbar-brand {
           h1 {
-            background-image: url('./img/logo.png');
+            background-image: url('./asets/img/logo.png');
             background-size: cover;
             width: 145px;
             height: 50px;
@@ -105,6 +126,14 @@ body {
           li {
             a {
               color: $white;
+              
+              font-size: 15px;
+              font-weight: 300;
+
+              &.nav-link {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+              }
             }
           }
         }
@@ -112,22 +141,150 @@ body {
     }
   }
 
+  section {
+    &#herald {
+      color: $white;
+      span {
+        color: $lightblue;
+      }
+    }
+
+    &#services {
+      .services {
+        background-size: cover !important;
+        background-position: center center !important;
+        min-height: 500px;
+        max-height: 100vh;
+        color: $white;
+
+        .top {
+        }
+        .bottom {
+          position: absolute;
+          bottom: .5rem;
+        }
+      }
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: 2.25rem;
+    }
+  }
+
+  .team-background {
+    background-size: cover;
+    background-position: center center;
+    min-height: 325px;
+    width: 100%;
+  }
+
   main {
     min-height: 300px;
+    background-color: $white;
+    &.gray {
+      background-color: $gray;
+    }
+    .h-250 {
+      min-height: 250px;
+      .masonary-item {
+        background-position: center center;
+        background-size: cover;
+        div {
+          color: $white;
+        }
+      }
+    }
+    
+    &.team {
+      img {
+        &.team-member {
+          margin-top: -60%;
+        }
+      }
+
+      .sidebar {
+        .side-item {
+          .title {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: .75rem;
+          }
+          .content {
+            color: $light-test;
+            a {
+              color: $light-test;
+              &:hover {
+                color: $blue;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .social {
+      a{
+        color: $lightgray;
+        &:hover {
+          color: $blue;
+        }
+      }
+    }
+
+    #careers {
+      .post {
+        border-top: 1px solid $lightgray;
+        &:last-child {
+          border-bottom: 1px solid $lightgray;
+        } 
+      }
+    }
   }
 
   footer {
     section {
       &.top {
         color: $white;
+        a {
+          color: $lightblue;
+          &:hover {
+            color: $white;
+          }
+        }
         .footer-img {
           margin-top: -125px;
+        }
+        div {
+          color: $white;
+          font-size: 2rem;
+          font-weight: 300;
+          &.dash {
+            margin: 0 0 0 -2.25rem;
+          }
+          &.carrott {
+            margin: 0 0 0 -1.375rem;
+          }
+          &.small {
+            font-size: 1rem;
+            p {
+              color: $white;
+            }
+          }
+        }
+        li {
+          color: $white;
+          font-weight: 300;
+          list-style: none;
         }
       }
       &.bottom {
         color: $lightgray;
         font-size: 2rem;
         font-weight: 300;
+        span {
+          color: $lightgray;
+        }
         a {
           color: $darkgray;
           &:hover {
@@ -185,36 +342,12 @@ body {
         top: 0;
         width: 100%;
         height: calc(100vh - 95px);
-        color: $white;
-      }
-    }
-
-    section {
-      &#herald {
-        color: $white;
-        span {
-          color: $lightblue;
-        }
-      }
-
-      &#services {
-        .services {
-          background-size: cover !important;
-          background-position: center center !important;
-          min-height: 500px;
-          max-height: 100vh;
+        h1 {
           color: $white;
-
-          .top {
-          }
-          .bottom {
-          }
         }
-      }
-
-      h2 {
-        font-weight: 300;
-        font-size: 2.25rem;
+        div {
+          color: $white;
+        }
       }
     }
   }

@@ -1,5 +1,10 @@
 <?php
 
+// don't load directly
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
+}
+
 GFForms::include_feed_addon_framework();
 
 /**
@@ -17,7 +22,7 @@ class GFMailChimp extends GFFeedAddOn {
 	 *
 	 * @since  3.0
 	 * @access private
-	 * @var    object $_instance If available, contains an instance of this class.
+	 * @var    GFMailChimp $_instance If available, contains an instance of this class.
 	 */
 	private static $_instance = null;
 
@@ -148,13 +153,22 @@ class GFMailChimp extends GFFeedAddOn {
 	protected $merge_var_name = '';
 
 	/**
+	 * Defines the MailChimp merge fields used in the current request.
+	 *
+	 * @since  4.2.4
+	 * @access protected
+	 * @var    array $merge_fields The MailChimp merge fields used in the current request.
+	 */
+	protected $merge_fields = array();
+
+	/**
 	 * Contains an instance of the Mailchimp API library, if available.
 	 *
 	 * @since  1.0
 	 * @access protected
 	 * @var    object $api If available, contains an instance of the Mailchimp API library.
 	 */
-	private $api = null;
+	public $api = null;
 
 	/**
 	 * Get an instance of this class.
@@ -188,7 +202,7 @@ class GFMailChimp extends GFFeedAddOn {
 
 		if ( $this->is_gravityforms_supported() ) {
 
-			// Load the Mailgun API library.
+			// Load the MailChimp API library.
 			if ( ! class_exists( 'GF_MailChimp_API' ) ) {
 				require_once( 'includes/class-gf-mailchimp-api.php' );
 			}
@@ -248,7 +262,9 @@ class GFMailChimp extends GFFeedAddOn {
 				'handle'  => $this->_slug . '_form_settings',
 				'src'     => $this->get_base_url() . '/css/form_settings.css',
 				'version' => $this->_version,
-				'enqueue' => array( 'admin_page' => array( 'form_settings' ) ),
+				'enqueue' => array(
+					array( 'admin_page' => array( 'form_settings' ) ),
+				),
 			),
 		);
 
@@ -547,19 +563,8 @@ class GFMailChimp extends GFFeedAddOn {
 		// Get current list ID.
 		$list_id = $this->get_setting( 'mailchimpList' );
 
-		try {
-
-			// Get merge fields.
-			$merge_fields = $this->api->get_list_merge_fields( $list_id );
-
-		} catch ( Exception $e ) {
-
-			// Log error.
-			$this->log_error( __METHOD__ . '(): Unable to get merge fields for MailChimp list; ' . $e->getMessage() );
-
-			return $field_map;
-
-		}
+		// Get merge fields.
+		$merge_fields = $this->get_list_merge_fields( $list_id );
 
 		// If merge fields exist, add to field map.
 		if ( ! empty( $merge_fields['merge_fields'] ) ) {
@@ -961,6 +966,11 @@ class GFMailChimp extends GFFeedAddOn {
 		// Loop through field map.
 		foreach ( $field_map as $name => $field_id ) {
 
+			// If no field is mapped, skip it.
+			if ( rgblank( $field_id ) ) {
+				continue;
+			}
+
 			// If this is the email field, skip it.
 			if ( strtoupper( $name ) === 'EMAIL' ) {
 				continue;
@@ -980,31 +990,44 @@ class GFMailChimp extends GFFeedAddOn {
 				continue;
 			}
 
+			// Get merge field.
+			$merge_field = $this->get_list_merge_field( $feed['meta']['mailchimpList'], $name );
+
+			// Format date field.
+			if ( ! empty( $field_value ) && ! empty( $merge_field ) && in_array( $merge_field['type'], array( 'date', 'birthday' ) ) ) {
+
+				// Get date format.
+				$date_format = $merge_field['options']['date_format'];
+
+				// Convert field value to timestamp.
+				$field_value_timestamp = strtotime( $field_value );
+
+				// Format date.
+				switch( $date_format ) {
+
+					case 'DD/MM':
+						$field_value = date( 'd/m', $field_value_timestamp );
+						break;
+
+					case 'MM/DD':
+						$field_value = date( 'm/d', $field_value_timestamp );
+						break;
+
+					case 'DD/MM/YYYY':
+					case 'MM/DD/YYYY':
+						$field_value = date( 'm/d/Y', $field_value_timestamp );
+						break;
+
+				}
+
+			}
+
 			$merge_vars[ $name ] = $field_value;
 
 		}
 
-		// Initialize interests array.
-		$interests = array();
-
-		// Get interest categories.
-		$categories = $this->get_feed_interest_categories( $feed );
-
-		// Loop through categories.
-		foreach ( $categories as $category_id => $category_meta ) {
-
-			// Log that we are evaluating the category conditions.
-			$this->log_debug( __METHOD__ . '(): Evaluating condition for interest category "' . $category_id . '": ' . print_r( $category_meta, true ) );
-
-			// Get condition evaluation.
-			$condition_evaluation = $this->is_category_condition_met( $category_meta, $form, $entry );
-
-			// Set interest category based on evaluation.
-			$interests[ $category_id ] = $condition_evaluation;
-
-		}
-
-		// Define initial member found and member status variables.
+		// Define initial member, member found and member status variables.
+		$member        = false;
 		$member_found  = false;
 		$member_status = null;
 
@@ -1022,6 +1045,9 @@ class GFMailChimp extends GFFeedAddOn {
 			// Set member status.
 			$member_status = $member['status'];
 
+			// Log member status.
+			$this->log_debug( __METHOD__ . "(): $email was found on list. Status: $member_status" );
+
 		} catch ( Exception $e ) {
 
 			// If the exception code is not 404, abort feed processing.
@@ -1033,6 +1059,9 @@ class GFMailChimp extends GFFeedAddOn {
 				return $entry;
 
 			}
+
+			// Log member status.
+			$this->log_debug( __METHOD__ . "(): $email was not found on list." );
 
 		}
 
@@ -1053,8 +1082,76 @@ class GFMailChimp extends GFFeedAddOn {
 			return;
 		}
 
-		// If member status is not defined, set to subscribed.
-		$member_status = isset( $member_status ) ? $member_status : 'subscribed';
+		/**
+		 * Modify whether a user that is already subscribed to your list has their groups replaced when submitting the form a second time.
+		 *
+		 * @since 1.9
+		 *
+		 * @param bool   $keep_existing_interests Should user keep existing interest categories?
+		 * @param array  $form                    The form object.
+		 * @param array  $entry                   The entry object.
+		 * @param array  $feed                    The feed object.
+		 */
+		$keep_existing_interests = gf_apply_filters( array( 'gform_mailchimp_keep_existing_groups', $form['id'] ), true, $form, $entry, $feed );
+
+		// Initialize interests to keep array.
+		$interests_to_keep = array();
+
+		// Initialize interests array.
+		$interests = $existing_interests = rgar( $member, 'interests', array() );
+
+		// If member was found, has existing interests and we are not keeping existing interest categories, remove them.
+		if ( $member_found && $existing_interests ) {
+
+			// Loop through existing interests.
+			foreach ( $existing_interests as $interest_id => $interest_enabled ) {
+
+				// If interest is not enabled, skip it.
+				if ( ! $interest_enabled ) {
+					continue;
+				}
+
+				// If we are keeping existing interests, add to array.
+				if ( $keep_existing_interests ) {
+
+					$interests_to_keep[] = $interest_id;
+					continue;
+
+				} else if ( ! $keep_existing_interests ) {
+
+					// Disable interest in new subscription.
+					$interests[ $interest_id ] = false;
+
+				}
+
+			}
+
+		}
+
+		// Get interest categories.
+		$categories = $this->get_feed_interest_categories( $feed );
+
+		// Loop through categories.
+		foreach ( $categories as $category_id => $category_meta ) {
+
+			// If category is not enabled or the category is one we are keeping, skip it.
+			if ( ! rgar( $category_meta, 'enabled' ) || in_array( $category_id, $interests_to_keep ) ) {
+				continue;
+			}
+
+			// Log that we are evaluating the category conditions.
+			$this->log_debug( __METHOD__ . '(): Evaluating condition for interest category "' . $category_id . '": ' . print_r( $category_meta, true ) );
+
+			// Get condition evaluation.
+			$condition_evaluation = $this->is_category_condition_met( $category_meta, $form, $entry );
+
+			// Set interest category based on evaluation.
+			$interests[ $category_id ] = $condition_evaluation;
+
+		}
+
+		// If member status is not defined or is anything other than pending, set to subscribed.
+		$member_status = isset( $member_status ) && $member_status === 'pending' ? $member_status : 'subscribed';
 
 		// Prepare subscription arguments.
 		$subscription = array(
@@ -1091,7 +1188,7 @@ class GFMailChimp extends GFFeedAddOn {
 		unset( $subscription['merge_vars'] );
 
 		// Convert double optin.
-		$subscription['status'] = $subscription['double_optin'] && ! $member_found ? 'pending' : 'subscribed';
+		$subscription['status'] = $subscription['double_optin'] ? 'pending' : $subscription['status'];
 		unset( $subscription['double_optin'] );
 
 		// Extract list ID.
@@ -1105,19 +1202,22 @@ class GFMailChimp extends GFFeedAddOn {
 		/**
 		 * Modify the subscription object before it is executed.
 		 *
-		 * @param array  $subscription Subscription arguments.
-		 * @param string $list_id      MailChimp list ID.
-		 * @param array  $form         The form object.
-		 * @param array  $entry        The entry object.
-		 * @param array  $feed         The feed object.
+		 * @since 4.1.9 Added existing member object as $member parameter.
+		 *
+		 * @param array       $subscription Subscription arguments.
+		 * @param string      $list_id      MailChimp list ID.
+		 * @param array       $form         The form object.
+		 * @param array       $entry        The entry object.
+		 * @param array       $feed         The feed object.
+		 * @param array|false $member       The existing member object. (False if member does not currently exist in MailChimp.)
 		 */
-		$subscription = gf_apply_filters( array( 'gform_mailchimp_subscription', $form['id'] ), $subscription, $list_id, $form, $entry, $feed );
+		$subscription = gf_apply_filters( array( 'gform_mailchimp_subscription', $form['id'] ), $subscription, $list_id, $form, $entry, $feed, $member );
 
 		// Remove merge_fields if none are defined.
 		if ( empty( $subscription['merge_fields'] ) ) {
 			unset( $subscription['merge_fields'] );
 		}
-		
+
 		// Remove interests if none are defined.
 		if ( empty( $subscription['interests'] ) ) {
 			unset( $subscription['interests'] );
@@ -1132,7 +1232,7 @@ class GFMailChimp extends GFFeedAddOn {
 		$note = GFCommon::replace_variables( $subscription['note'], $form, $entry, false, true, false, 'text' );
 		unset( $subscription['note'] );
 
-		$action = $member_found ? 'added' : 'updated';
+		$action = $member_found ? 'updated' : 'added';
 
 		try {
 
@@ -1151,7 +1251,7 @@ class GFMailChimp extends GFFeedAddOn {
 			$this->add_feed_error( sprintf( esc_html__( 'Unable to add/update subscriber: %s', 'gravityformsmailchimp' ), $e->getMessage() ), $feed, $entry, $form );
 
 			// Log field errors.
-			if ( $e->getErrors() ) {
+			if ( $e->hasErrors() ) {
 				$this->log_error( __METHOD__ . '(): Field errors when attempting subscription: ' . print_r( $e->getErrors(), true ) );
 			}
 
@@ -1198,7 +1298,7 @@ class GFMailChimp extends GFFeedAddOn {
 	 * @uses GFMailChimp::get_full_address()
 	 * @uses GFMailChimp::maybe_override_field_value()
 	 *
-	 * @return array
+	 * @return array|string
 	 */
 	public function get_field_value( $form, $entry, $field_id ) {
 
@@ -1532,11 +1632,13 @@ class GFMailChimp extends GFFeedAddOn {
 		if ( ! $category['enabled'] ) {
 
 			$this->log_debug( __METHOD__ . '(): Interest category not enabled. Returning false.' );
+
 			return false;
 
-		} elseif ( $category['decision'] == 'always' ) {
+		} else if ( $category['decision'] == 'always' ) {
 
 			$this->log_debug( __METHOD__ . '(): Interest category decision is always. Returning true.' );
+
 			return true;
 
 		}
@@ -1546,15 +1648,18 @@ class GFMailChimp extends GFFeedAddOn {
 		if ( ! is_object( $field ) ) {
 
 			$this->log_debug( __METHOD__ . "(): Field #{$category['field']} not found. Returning true." );
+
 			return true;
 
 		} else {
 
-			$field_value    = $this->get_field_value( $form, $entry, $category['field'] );
-			$is_value_match = GFFormsModel::is_value_match( $field_value, $category['value'], $category['operator'], $field );
+			$field_value    = GFFormsModel::get_lead_field_value( $entry, $field );
+			$is_value_match = GFFormsModel::is_value_match( $field_value, $category['value'], $category['operator'] );
+
 			$this->log_debug( __METHOD__ . "(): Add to interest category if field #{$category['field']} value {$category['operator']} '{$category['value']}'. Is value match? " . var_export( $is_value_match, 1 ) );
 
 			return $is_value_match;
+
 		}
 
 	}
@@ -1602,6 +1707,88 @@ class GFMailChimp extends GFFeedAddOn {
 		}
 
 		return $address;
+
+	}
+
+	/**
+	 * Get MailChimp merge fields for list.
+	 *
+	 * @since  4.2.4
+	 * @access public
+	 *
+	 * @param string $list_id List ID to get merge fields for.
+	 *
+	 * @uses GFMailChimp::initialize_api()
+	 * @uses GF_MailChimp_API::get_list_merge_fields()
+	 *
+	 * @return array
+	 */
+	public function get_list_merge_fields( $list_id = '' ) {
+
+		// If no list ID was provided or if API cannot be initialized, return.
+		if ( rgblank( $list_id ) || ! $this->initialize_api() ) {
+			return array();
+		}
+
+		// If merge fields have already been retrieved, return.
+		if ( isset( $this->merge_fields[ $list_id ] ) ) {
+			return $this->merge_fields[ $list_id ];
+		}
+
+		try {
+
+			// Get merge fields.
+			$this->merge_fields[ $list_id ] = $this->api->get_list_merge_fields( $list_id );
+
+		} catch ( Exception $e ) {
+
+			// Log error.
+			$this->log_error( __METHOD__ . '(): Unable to get merge fields for MailChimp list; ' . $e->getMessage() );
+
+			$this->merge_fields[ $list_id ] = array();
+
+		}
+
+		return $this->merge_fields[ $list_id ];
+
+	}
+
+	/**
+	 * Get specific MailChimp merge field by tag.
+	 *
+	 * @since  4.2.4
+	 * @access public
+	 *
+	 * @param string $list_id List ID to get merge fields for.
+	 * @param string $tag     Merge field tag.
+	 *
+	 * @uses GFMailChimp::get_list_merge_fields()
+	 *
+	 * @return array
+	 */
+	public function get_list_merge_field( $list_id = '', $tag = '' ) {
+
+		// Get the merge fields for list.
+		$merge_fields = $this->get_list_merge_fields( $list_id );
+
+		// If no merge fields were provided, return.
+		if ( empty( $merge_fields ) || ! isset( $merge_fields['merge_fields'] ) ) {
+			return;
+		}
+
+		// Loop through merge fields.
+		foreach ( $merge_fields['merge_fields'] as $merge_field ) {
+
+			// If this is not the merge field we are looking for, skip.
+			if ( $tag !== $merge_field['tag'] ) {
+				continue;
+			}
+
+			return $merge_field;
+
+		}
+
+		return array();
 
 	}
 
@@ -1670,6 +1857,9 @@ class GFMailChimp extends GFFeedAddOn {
 		// Get MailChimp feeds.
 		$feeds = $this->get_feeds();
 
+		$list_interest_categories    = array();
+		$interest_category_interests = array();
+
 		// Loop through MailChimp feeds.
 		foreach ( $feeds as $feed ) {
 
@@ -1683,8 +1873,14 @@ class GFMailChimp extends GFFeedAddOn {
 
 			try {
 
-				// Get interest categories for list.
-				$interest_categories = $this->api->get_list_interest_categories( $feed['meta']['mailchimpList'] );
+				$list_id = $feed['meta']['mailchimpList'];
+
+				if ( ! isset( $list_interest_categories[ $list_id ] ) ) {
+					// Get interest categories for list.
+					$list_interest_categories[ $list_id ] = $this->api->get_list_interest_categories( $list_id );
+				}
+
+				$interest_categories = rgar( $list_interest_categories, $list_id, array() );
 
 			} catch ( Exception $e ) {
 
@@ -1698,8 +1894,14 @@ class GFMailChimp extends GFFeedAddOn {
 			// Loop through interest categories.
 			foreach ( $interest_categories as $interest_category ) {
 
-				// Get interests for interest category.
-				$interests = $this->api->get_interest_category_interests( $feed['meta']['mailchimpList'], $interest_category['id'] );
+				$category_id = $interest_category['id'];
+
+				if ( ! isset( $interest_category_interests[ $category_id ] ) ) {
+					// Get interests for interest category.
+					$interest_category_interests[ $category_id ] = $this->api->get_interest_category_interests( $list_id, $category_id );
+				}
+
+				$interests = rgar( $list_interest_categories, $category_id, array() );
 
 				// Loop through interests.
 				foreach ( $interests as $interest ) {
@@ -2023,6 +2225,34 @@ class GFMailChimp extends GFFeedAddOn {
 
 		return $results;
 
+	}
+
+	/**
+	 * Retrieve the group setting key.
+	 *
+	 * @param string $grouping_id The group ID.
+	 * @param string $group_name The group name.
+	 *
+	 * @return string
+	 */
+	public function get_group_setting_key( $grouping_id, $group_name ) {
+
+		$plugin_settings = GFCache::get( 'mailchimp_plugin_settings' );
+		if ( empty( $plugin_settings ) ) {
+			$plugin_settings = $this->get_plugin_settings();
+			GFCache::set( 'mailchimp_plugin_settings', $plugin_settings );
+		}
+
+		$key = 'group_key_' . $grouping_id . '_' . str_replace( '%', '', sanitize_title_with_dashes( $group_name ) );
+
+		if ( ! isset( $plugin_settings[ $key ] ) ) {
+			$group_key               = sanitize_key( uniqid( 'mc_group_', true ) );
+			$plugin_settings[ $key ] = $group_key;
+			$this->update_plugin_settings( $plugin_settings );
+			GFCache::set( 'mailchimp_plugin_settings', $plugin_settings );
+		}
+
+		return $plugin_settings[ $key ];
 	}
 
 }

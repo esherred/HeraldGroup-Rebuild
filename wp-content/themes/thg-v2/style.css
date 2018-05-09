@@ -12,7 +12,6 @@
 */
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css");
 @import url("https://use.typekit.net/bgt0eya.css");
-@import url("https://use.fontawesome.com/releases/v5.0.10/css/all.css");
 .mt-125 {
   margin-top: calc(3rem + 125px);
 }
@@ -20,6 +19,14 @@
 .bg-primary {
   background-color: #0a6992 !important;
   border-color: #0a6992 !important;
+}
+
+.bg-gray {
+  background-color: #eeeeee;
+}
+
+.bg-white {
+  background-color: #fff;
 }
 
 .btn {
@@ -42,12 +49,19 @@
   border-bottom: 1px solid #d2d2d2;
 }
 
-html, p, div, span {
+html {
   font-family: "akagi-pro", sans-serif;
+  color: #616161;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "source-sans-pro", sans-serif;
+  color: #1c1b1b;
+  font-weight: 300;
+}
+
+.font-weight-light {
+  font-weight: 300;
 }
 
 a {
@@ -67,31 +81,144 @@ a strong {
   text-transform: uppercase;
 }
 
+body {
+  background-color: #fff;
+}
+body.gray {
+  background-color: #eeeeee;
+}
 body header nav.navbar {
   background-color: #0a6992;
 }
 body header nav.navbar .navbar-brand h1 {
-  background-image: url("./img/logo.png");
+  background-image: url("./asets/img/logo.png");
   background-size: cover;
   width: 145px;
   height: 50px;
 }
 body header nav.navbar ul li a {
   color: #fff;
+  font-size: 15px;
+  font-weight: 300;
+}
+body header nav.navbar ul li a.nav-link {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+body section#herald {
+  color: #fff;
+}
+body section#herald span {
+  color: #0fb6ed;
+}
+body section#services .services {
+  background-size: cover !important;
+  background-position: center center !important;
+  min-height: 500px;
+  max-height: 100vh;
+  color: #fff;
+}
+body section#services .services .bottom {
+  position: absolute;
+  bottom: .5rem;
+}
+body section h2 {
+  font-weight: 300;
+  font-size: 2.25rem;
+}
+body .team-background {
+  background-size: cover;
+  background-position: center center;
+  min-height: 325px;
+  width: 100%;
 }
 body main {
   min-height: 300px;
+  background-color: #fff;
+}
+body main.gray {
+  background-color: #eeeeee;
+}
+body main .h-250 {
+  min-height: 250px;
+}
+body main .h-250 .masonary-item {
+  background-position: center center;
+  background-size: cover;
+}
+body main .h-250 .masonary-item div {
+  color: #fff;
+}
+body main.team img.team-member {
+  margin-top: -60%;
+}
+body main.team .sidebar .side-item .title {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: .75rem;
+}
+body main.team .sidebar .side-item .content {
+  color: #8f9395;
+}
+body main.team .sidebar .side-item .content a {
+  color: #8f9395;
+}
+body main.team .sidebar .side-item .content a:hover {
+  color: #0a6992;
+}
+body main .social a {
+  color: #d2d2d2;
+}
+body main .social a:hover {
+  color: #0a6992;
+}
+body main #careers .post {
+  border-top: 1px solid #d2d2d2;
+}
+body main #careers .post:last-child {
+  border-bottom: 1px solid #d2d2d2;
 }
 body footer section.top {
+  color: #fff;
+}
+body footer section.top a {
+  color: #0fb6ed;
+}
+body footer section.top a:hover {
   color: #fff;
 }
 body footer section.top .footer-img {
   margin-top: -125px;
 }
+body footer section.top div {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 300;
+}
+body footer section.top div.dash {
+  margin: 0 0 0 -2.25rem;
+}
+body footer section.top div.carrott {
+  margin: 0 0 0 -1.375rem;
+}
+body footer section.top div.small {
+  font-size: 1rem;
+}
+body footer section.top div.small p {
+  color: #fff;
+}
+body footer section.top li {
+  color: #fff;
+  font-weight: 300;
+  list-style: none;
+}
 body footer section.bottom {
   color: #d2d2d2;
   font-size: 2rem;
   font-weight: 300;
+}
+body footer section.bottom span {
+  color: #d2d2d2;
 }
 body footer section.bottom a {
   color: #191919;
@@ -140,22 +267,10 @@ body.home #hero-wrapper #hero {
   top: 0;
   width: 100%;
   height: calc(100vh - 95px);
+}
+body.home #hero-wrapper #hero h1 {
   color: #fff;
 }
-body.home section#herald {
+body.home #hero-wrapper #hero div {
   color: #fff;
-}
-body.home section#herald span {
-  color: #0fb6ed;
-}
-body.home section#services .services {
-  background-size: cover !important;
-  background-position: center center !important;
-  min-height: 500px;
-  max-height: 100vh;
-  color: #fff;
-}
-body.home section h2 {
-  font-weight: 300;
-  font-size: 2.25rem;
 }

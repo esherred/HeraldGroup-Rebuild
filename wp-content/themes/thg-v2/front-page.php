@@ -11,7 +11,7 @@
     <div id="hero-wrapper">
       <div id="hero" class="text-center align-middle m-auto">
         <h1 class="display-4">Redefining Advocacy.</h1>
-        <p>Public Affairs  •  Issue Advocacy  •  Strategic Communications  •  Digital Engagement</p>
+        <div class="my-4">Public Affairs  •  Issue Advocacy  •  Strategic Communications  •  Digital Engagement</div>
         <p>
           <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </p>
@@ -85,84 +85,29 @@
   <section id="services">
     <div class="container-fluid">
       <div class="row">
-        <div id="services-1" class="col-2 px-1">
-          <div style="background: linear-gradient(rgba(56,60,65,.7),rgba(56,60,65,.7)), url(http://placekitten.com/305/787);" class="services p-3 d-flex">
-            <div class="top h-50 w-100 d-inline-block">
-              –<br> 
-              Communications
-            </div>
-            <div class="bottom h-50 w-100 d-inline-block">
-              <div class="read">
-                >
+        <?php 
+          $services = get_field( 'services', 'options' );
+          foreach ( $services as $service ) :
+        ?>
+          <div id="<?php echo $service['service']['title'] ?>" class="col-2 px-1">
+            <div style="background: linear-gradient(rgba(56,60,65,.6),rgba(56,60,65,.6)), url(http://placekitten.com/305/787);" class="services p-3">
+              <div class="top">
+                <i class="fal fa-minus d-block"></i>
+                <?php echo $service['service']['title'] ?>
+              </div>
+              <div class="bottom">
+                <div class="read">
+                  <div class="read fa-2x">
+                    <span class="fa-layers fa-fw">
+                      <i class="fal fa-square-full" style="color: #fff;"></i>
+                      <i class="fal fa-angle-right" data-fa-transform="shrink-6" style="color: #fff;"></i>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div id="services-2" class="col-2 px-1">
-          <div style="background: linear-gradient(rgba(56,60,65,.7),rgba(56,60,65,.7)), url(http://placekitten.com/305/787);" class="services p-3">
-            <div class="top h-50 w-100 d-inline-block">
-              –<br> 
-              Communications
-            </div>
-            <div class="bottom h-50 w-100 d-inline-block">
-              <div class="read">
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="services-3" class="col-2 px-1">
-          <div style="background: linear-gradient(rgba(56,60,65,.7),rgba(56,60,65,.7)), url(http://placekitten.com/305/787);" class="services p-3">
-            <div class="top h-50 w-100 d-inline-block">
-              –<br> 
-              Communications
-            </div>
-            <div class="bottom h-50 w-100 d-inline-block">
-              <div class="read">
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="services-4" class="col-2 px-1">
-          <div style="background: linear-gradient(rgba(56,60,65,.7),rgba(56,60,65,.7)), url(http://placekitten.com/305/787);" class="services p-3">
-            <div class="top h-50 w-100 d-inline-block">
-              –<br> 
-              Communications
-            </div>
-            <div class="bottom h-50 w-100 d-inline-block">
-              <div class="read">
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="services-5" class="col-2 px-1">
-          <div style="background: linear-gradient(rgba(56,60,65,.7),rgba(56,60,65,.7)), url(http://placekitten.com/305/787);" class="services p-3">
-            <div class="top h-50 w-100 d-inline-block">
-              –<br> 
-              Communications
-            </div>
-            <div class="bottom h-50 w-100 d-inline-block">
-              <div class="read">
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="services-6" class="col-2 px-1">
-          <div style="background: linear-gradient(rgba(56,60,65,.7),rgba(56,60,65,.7)), url(http://placekitten.com/305/787);" class="services p-3">
-            <div class="top h-50 w-100 d-inline-block">
-              –<br> 
-              Communications
-            </div>
-            <div class="bottom h-50 w-100 d-inline-block">
-              <div class="read">
-                >
-              </div>
-            </div>
-          </div>
-        </div>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>

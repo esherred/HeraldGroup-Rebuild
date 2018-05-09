@@ -234,7 +234,7 @@ class GF_MailChimp_API {
 	 * @param string $method     Request method. Defaults to GET.
 	 * @param string $return_key Array key from response to return. Defaults to null (return full response).
 	 *
-	 * @throws Exception if API request returns an error, exception is thrown.
+	 * @throws GF_MailChimp_Exception If API request returns an error, exception is thrown.
 	 *
 	 * @return array
 	 */
@@ -261,7 +261,21 @@ class GF_MailChimp_API {
 				'Authorization' => 'Basic ' . base64_encode( ':' . $this->api_key ),
 				'Content-Type'  => 'application/json',
 			),
+			/**
+			 * Filters if SSL verification should occur.
+			 *
+			 * @param bool false If the SSL certificate should be verified. Defalts to false.
+			 *
+			 * @return bool
+			 */
 			'sslverify' => apply_filters( 'https_local_ssl_verify', false ),
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @param int 30 The timeout limit, in seconds. Defalts to 30.
+			 *
+			 * @return int
+			 */
 			'timeout'   => apply_filters( 'http_request_timeout', 30 ),
 		);
 
@@ -270,7 +284,14 @@ class GF_MailChimp_API {
 			$args['body'] = json_encode( $data );
 		}
 
-		// Filter request arguments.
+		/**
+		 * Filters the MailChimp request arguments.
+		 *
+		 * @param array  $args The request arguments sent to MailChimp.
+		 * @param string $path The request path.
+		 *
+		 * @return array
+		 */
 		$args = apply_filters( 'gform_mailchimp_request_args', $args, $path );
 
 		// Get request response.
@@ -278,27 +299,36 @@ class GF_MailChimp_API {
 
 		// If request was not successful, throw exception.
 		if ( is_wp_error( $response ) ) {
-			throw new Exception( $response->get_error_message() );
+			throw new GF_MailChimp_Exception( $response->get_error_message() );
 		}
 
 		// Decode response body.
 		$response['body'] = json_decode( $response['body'], true );
 
-		// If status code is set, throw exception.
-		if ( isset( $response['body']['status'] ) && isset( $response['body']['title'] ) ) {
+		// Get the response code.
+		$response_code = wp_remote_retrieve_response_code( $response );
 
-			// Initialize exception.
-			$exception = new GF_MailChimp_Exception( $response['body']['title'], $response['body']['status'] );
+		if ( $response_code != 200 ) {
 
-			// Add detail.
-			$exception->setDetail( $response['body']['detail'] );
+			// If status code is set, throw exception.
+			if ( isset( $response['body']['status'] ) && isset( $response['body']['title'] ) ) {
 
-			// Add errors if available.
-			if ( isset( $response['body']['errors'] ) ) {
-				$exception->setErrors( $response['body']['errors'] );
+				// Initialize exception.
+				$exception = new GF_MailChimp_Exception( $response['body']['title'], $response['body']['status'] );
+
+				// Add detail.
+				$exception->setDetail( $response['body']['detail'] );
+
+				// Add errors if available.
+				if ( isset( $response['body']['errors'] ) ) {
+					$exception->setErrors( $response['body']['errors'] );
+				}
+
+				throw $exception;
+
 			}
 
-			throw $exception;
+			throw new GF_MailChimp_Exception( wp_remote_retrieve_response_message( $response ), $response_code );
 
 		}
 
@@ -390,6 +420,34 @@ class GF_MailChimp_Exception extends Exception {
 	public function getErrors() {
 
 		return $this->errors;
+
+	}
+
+	/**
+	 * Determine if exception has additional details.
+	 *
+	 * @since  4.1.11
+	 * @access public
+	 *
+	 * @return bool
+	 */
+	public function hasDetail() {
+
+		return ! empty( $this->detail );
+
+	}
+
+	/**
+	 * Determine if exception has error messages.
+	 *
+	 * @since  4.1.11
+	 * @access public
+	 *
+	 * @return bool
+	 */
+	public function hasErrors() {
+
+		return ! empty( $this->errors );
 
 	}
 
