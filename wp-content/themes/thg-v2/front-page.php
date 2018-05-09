@@ -1,9 +1,7 @@
 <?php get_header( 'front' ); ?>
 
   <video id="heroVideo" poster="http://www.dcigroup.com//wp-content/themes/dcigroup/assets/storage/video/home-1.jpg" autoplay muted loop>
-    <source src="http://www.dcigroup.com//wp-content/themes/dcigroup/assets/storage/video/home-1.mp4" type="video/mp4">
-    <source src="http://www.dcigroup.com//wp-content/themes/dcigroup/assets/storage/video/home-1.webm" type="video/webm">
-    <source src="http://www.dcigroup.com//wp-content/themes/dcigroup/assets/storage/video/home-1.ogv" type="video/ogg">
+    <source src="<?php echo get_field( 'background', 'options' ); ?>" type="video/mp4">
   </video>
   <div id="hero-overlay"></div>
   
@@ -24,65 +22,89 @@
     <div><span>noun. /</span> One who actively promotes or advocates.</div>
   </section>
 
-  <section>
+  <section class="bg-white">
     <div class="container p-5 border-bottom-1">
       <div class="row">
         <div class="col-12 col-lg-6">
-          <h2>You already knowv our work. Now get to know us.</h2>
+          <h2><?php echo get_field( 'home_section_1', 'options' )['headline']; ?></h2>
         </div>
         <div class="col-12 col-lg-6">
-          <p>For over a decade, corporations, industry associations and non-profit organizations have engaged The Herald Group to develop, execute and win some of the most critical national, state and international policy and issue advocacy campaigns.</p>
+          <p><?php echo get_field( 'home_section_1', 'options' )['content']; ?></p>
           <p>
-            <a href="#"><strong>Meet The Team ></strong></a>
+            <a href="<?php echo get_field( 'home_section_1', 'options' )['destination_page']; ?>"><strong><?php echo get_field( 'home_section_1', 'options' )['destination_text']; ?> <i class="fal fa-angle-right"></i></strong></a>
           </p>
         </div>
-        <div class="col-12 text-center">
-          <div class="row">
-            <div class="col-12 mb-5">
-              <div id="teamSlider" class="carousel slide fade-carousel" data-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
+
+        <?php if( get_field( 'home_section_1', 'options' )['slider_images'] ) : ?>
+          <div class="col-12 text-center">
+            <div class="row">
+              <div class="col-12 mb-5">
+                <div id="home_section_1" class="carousel slide fade-carousel" data-ride="carousel">
+                  <div class="carousel-inner" style="max-height: 400px;">
+                    <?php foreach( get_field( 'home_section_1', 'options' )['slider_images'] as $count => $image ) : ?>
+                      <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>">
+                        <img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
+                      </div>
+                    <?php endforeach; ?>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-2">01/03</div>
-            <div class="col-8 py-2">
-              <div class="progress" style="height: 1px;">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: 33%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="3"></div>
+              <div class="col-2 counter">1 / <?php echo count( get_field( 'home_section_1', 'options' )['slider_images'] ); ?></div>
+              <div class="col-8 py-2">
+                <div class="progress" style="height: 1px;">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo 100/count( get_field( 'home_section_1', 'options' )['slider_images'] ); ?>%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="<?php echo count( get_field( 'home_section_1', 'options' )['slider_images'] ); ?>"></div>
+                </div>
               </div>
+              <div class="col-2"><a href="#home_section_1" role="button" data-slide="prev"><i class="fal fa-long-arrow-left mx-1" data-fa-transform="up-3"></i></a> <a href="#home_section_1" role="button" data-slide="next"><i class="fal fa-long-arrow-right mx-1" data-fa-transform="up-3"></i></a></div>
             </div>
-            <div class="col-2"><a href="#teamSlider" role="button" data-slide="prev"><-</a> <a href="#teamSlider" role="button" data-slide="next">-></a></div>
           </div>
-        </div>
+        <?php endif; ?>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="bg-white">
     <div class="container p-5">
       <div class="row">
         <div class="col-12 col-lg-6">
-          <h2>You already knowv our work. Now get to know us.</h2>
+          <h2><?php echo get_field( 'home_section_2', 'options' )['headline']; ?></h2>
         </div>
         <div class="col-12 col-lg-6">
-          <p>For over a decade, corporations, industry associations and non-profit organizations have engaged The Herald Group to develop, execute and win some of the most critical national, state and international policy and issue advocacy campaigns.</p>
+          <p><?php echo get_field( 'home_section_2', 'options' )['content']; ?></p>
           <p>
-            <a href="#"><strong>Meet The Team ></strong></a>
+            <a href="<?php echo get_field( 'home_section_2', 'options' )['destination_page']; ?>"><strong><?php echo get_field( 'home_section_2', 'options' )['destination_text']; ?> <i class="fal fa-angle-right"></i></strong></a>
           </p>
         </div>
+
+        <?php if( get_field( 'home_section_2', 'options' )['slider_images'] ) : ?>
+          <div class="col-12 text-center">
+            <div class="row">
+              <div class="col-12 mb-5">
+                <div id="home_section_2" class="carousel slide fade-carousel" data-ride="carousel">
+                  <div class="carousel-inner" style="max-height: 400px;">
+                    <?php foreach( get_field( 'home_section_2', 'options' )['slider_images'] as $count => $image ) : ?>
+                      <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>">
+                        <img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 counter">1 / <?php echo count( get_field( 'home_section_2', 'options' )['slider_images'] ); ?></div>
+              <div class="col-8 py-2">
+                <div class="progress" style="height: 1px;">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo 100/count( get_field( 'home_section_2', 'options' )['slider_images'] ); ?>%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="<?php echo count( get_field( 'home_section_2', 'options' )['slider_images'] ); ?>"></div>
+                </div>
+              </div>
+              <div class="col-2"><a href="#home_section_2" role="button" data-slide="prev"><i class="fal fa-long-arrow-left mx-1" data-fa-transform="up-3"></i></a> <a href="#home_section_2" role="button" data-slide="next"><i class="fal fa-long-arrow-right mx-1" data-fa-transform="up-3"></i></a></div>
+            </div>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   </section>
 
-  <section id="services">
+  <section id="services" class="bg-white">
     <div class="container-fluid">
       <div class="row">
         <?php 
@@ -112,83 +134,84 @@
     </div>
   </section>
 
-  <section>
+  <section class="bg-white">
     <div class="container p-5 border-bottom-1">
       <div class="row">
         <div class="col-12 col-lg-6">
-          <h2>Serving global corporations, leading industry associations & non-profit organizations.</h2>
+          <h2><?php echo get_field( 'home_section_3', 'options' )['headline']; ?></h2>
         </div>
         <div class="col-12 col-lg-6">
-          <p>Leveraging our vast commaunications, digital, political and policy expertise, The Herald Group is proud to serve a number of Fortune 500 companies, industry associations, non-profit entities and grassroots organizations. Representative clients and industries include:</p>
-
-          <p><a href="#"><strong>Clients and Industries ></strong></a></p>
+          <p><?php echo get_field( 'home_section_3', 'options' )['content']; ?></p>
+          <p>
+            <a href="<?php echo get_field( 'home_section_3', 'options' )['destination_page']; ?>"><strong><?php echo get_field( 'home_section_3', 'options' )['destination_text']; ?> <i class="fal fa-angle-right"></i></strong></a>
+          </p>
         </div>
-        <div class="col-12 text-center">
-          <div class="row">
-            <div class="col-12 mb-5">
-              <div id="clientSlider" class="carousel slide fade-carousel" data-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
+
+        <?php if( get_field( 'home_section_3', 'options' )['slider_images'] ) : ?>
+          <div class="col-12 text-center">
+            <div class="row">
+              <div class="col-12 mb-5">
+                <div id="home_section_3" class="carousel slide fade-carousel" data-ride="carousel">
+                  <div class="carousel-inner" style="max-height: 400px;">
+                    <?php foreach( get_field( 'home_section_3', 'options' )['slider_images'] as $count => $image ) : ?>
+                      <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>">
+                        <img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
+                      </div>
+                    <?php endforeach; ?>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-2">01/03</div>
-            <div class="col-8 py-2">
-              <div class="progress" style="height: 1px;">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: 33%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="3"></div>
+              <div class="col-2 counter">1 / <?php echo count( get_field( 'home_section_3', 'options' )['slider_images'] ); ?></div>
+              <div class="col-8 py-2">
+                <div class="progress" style="height: 1px;">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo 100/count( get_field( 'home_section_3', 'options' )['slider_images'] ); ?>%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="<?php echo count( get_field( 'home_section_3', 'options' )['slider_images'] ); ?>"></div>
+                </div>
               </div>
+              <div class="col-2"><a href="#home_section_3" role="button" data-slide="prev"><i class="fal fa-long-arrow-left mx-1" data-fa-transform="up-3"></i></a> <a href="#home_section_3" role="button" data-slide="next"><i class="fal fa-long-arrow-right mx-1" data-fa-transform="up-3"></i></a></div>
             </div>
-            <div class="col-2"><a href="#clientSlider" role="button" data-slide="prev"><-</a> <a href="#clientSlider" role="button" data-slide="next">-></a></div>
           </div>
-        </div>
+        <?php endif; ?>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="bg-white">
     <div class="container p-5">
       <div class="row">
         <div class="col-12 col-lg-6">
-          <h2>Results matter. You don’t confuse activity for progress.  Neither do we.</h2>
+          <h2><?php echo get_field( 'home_section_4', 'options' )['headline']; ?></h2>
         </div>
         <div class="col-12 col-lg-6">
-          <p>The Herald Group takes a customized, integrated approach with every client engagement, combining sound public affairs strategies with innovative tools and tactics.  Please take a look at some our work:</p>
-          <p><a href="#"><strong>CASE STUDIES ></strong></a></p>
+          <p><?php echo get_field( 'home_section_4', 'options' )['content']; ?></p>
+          <p>
+            <a href="<?php echo get_field( 'home_section_4', 'options' )['destination_page']; ?>"><strong><?php echo get_field( 'home_section_4', 'options' )['destination_text']; ?> <i class="fal fa-angle-right"></i></strong></a>
+          </p>
         </div>
-        <div class="col-12 text-center">
-          <div class="row">
-            <div class="col-12 mb-5">
-              <div id="caseStudySlider" class="carousel slide fade-carousel" data-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="img-fluid" src="http://placekitten.com/1410/750" alt="">
+
+        <?php if( get_field( 'home_section_4', 'options' )['slider_images'] ) : ?>
+          <div class="col-12 text-center">
+            <div class="row">
+              <div class="col-12 mb-5">
+                <div id="home_section_4" class="carousel slide fade-carousel" data-ride="carousel">
+                  <div class="carousel-inner" style="max-height: 400px;">
+                    <?php foreach( get_field( 'home_section_4', 'options' )['slider_images'] as $count => $image ) : ?>
+                      <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>">
+                        <img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
+                      </div>
+                    <?php endforeach; ?>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-2">01/03</div>
-            <div class="col-8 py-2">
-              <div class="progress" style="height: 1px;">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: 33%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="3"></div>
+              <div class="col-2 counter">1 / <?php echo count( get_field( 'home_section_4', 'options' )['slider_images'] ); ?></div>
+              <div class="col-8 py-2">
+                <div class="progress" style="height: 1px;">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo 100/count( get_field( 'home_section_4', 'options' )['slider_images'] ); ?>%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="<?php echo count( get_field( 'home_section_4', 'options' )['slider_images'] ); ?>"></div>
+                </div>
               </div>
+              <div class="col-2"><a href="#home_section_4" role="button" data-slide="prev"><i class="fal fa-long-arrow-left mx-1" data-fa-transform="up-3"></i></a> <a href="#home_section_4" role="button" data-slide="next"><i class="fal fa-long-arrow-right mx-1" data-fa-transform="up-3"></i></a></div>
             </div>
-            <div class="col-2"><a href="#caseStudySlider" role="button" data-slide="prev"><-</a> <a href="#caseStudySlider" role="button" data-slide="next">-></a></div>
           </div>
-        </div>
+        <?php endif; ?>
       </div>
     </div>
   </section>
@@ -205,32 +228,31 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 col-lg-6">
-          <div class="snippet d-table">
-            <div class="image mb-3">
-              <img src="http://placekitten.com/1000/700" class="img-fluid" alt="">
+        <?php
+          $results_args = array(
+            'post_type' => 'post',
+            'posts_per_page' => 2
+          );
+          $results_query = new WP_Query($results_args);
+        ?>
+        <?php if ( $results_query->have_posts() ) : ?>
+          <?php while( $results_query->have_posts() ) : $results_query->the_post(); ?>
+            <div class="col-12 col-lg-6">
+              <div class="snippet d-table">
+                <div class="image mb-3">
+                  <a href="<?php the_permalink(); ?>"><img src="<?php the_post_thumbnail_url( 'large' ); ?>" class="img-fluid" alt=""></a>
+                </div>
+                <div class="content p-3">
+                  <h2><?php the_title(); ?></h2>
+                </div>
+                <div class="more p-3">
+                  <a href="<?php the_permalink(); ?>">READ ON <i class="fal fa-angle-right"></i></a>
+                </div>
+              </div>
             </div>
-            <div class="content p-3">
-              <h2>This new Simpsons character is LIT!</h2>
-            </div>
-            <div class="more p-3">
-              <a href="#">READ ON ></a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6">
-          <div class="snippet">
-            <div class="image mb-3">
-              <img src="http://placekitten.com/1000/700" class="img-fluid" alt="">
-            </div>
-            <div class="content p-3">
-              <h2>Cats are so funny, you’ll die laughing! Woah!!!</h2>
-            </div>
-            <div class="more p-3">
-              <a href="#">READ ON ></a>
-            </div>
-          </div>
-        </div>
+          <?php endwhile; ?>
+        <?php endif; ?>
+        <?php wp_reset_query(); ?>
       </div>
     </div>
   </section>

@@ -179,21 +179,22 @@ body {
     width: 100%;
   }
 
+  .h-250 {
+    min-height: 250px;
+    .masonary-item {
+      background-position: center center;
+      background-size: cover;
+      div {
+        color: $white;
+      }
+    }
+  }
+
   main {
     min-height: 300px;
     background-color: $white;
     &.gray {
       background-color: $gray;
-    }
-    .h-250 {
-      min-height: 250px;
-      .masonary-item {
-        background-position: center center;
-        background-size: cover;
-        div {
-          color: $white;
-        }
-      }
     }
     
     &.team {
@@ -237,7 +238,7 @@ body {
         border-top: 1px solid $lightgray;
         &:last-child {
           border-bottom: 1px solid $lightgray;
-        } 
+        }
       }
     }
   }
@@ -349,6 +350,10 @@ body {
           color: $white;
         }
       }
+    }
+
+    .counter {
+      line-height: 1rem;
     }
   }
 }

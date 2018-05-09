@@ -10,7 +10,7 @@
       <?php endif; ?>
     </div>
   </div>
-  <div class="row px-5 py-3">
+  <div class="row px-md-5 py-md-3">
     <div class="col-12">
       <img src="<?php the_post_thumbnail_url( 'full' ); ?>" class="img-fluid" alt="">
     </div>
@@ -30,9 +30,9 @@
     ?>
     <?php if ( $team_query->have_posts() ) : ?>
       <?php while ( $team_query->have_posts() ) : $team_query->the_post(); ?>
-        <div class="col-4 text-center p-5">
-          <h4><?php the_title(); ?></h4>
-          <h4><?php the_field( 'team_member_title' ); ?></h4>
+        <div class="col-4 col-md-4 text-center p-1 p-md-5">
+          <h4 style="font-size: 1rem;"><?php the_title(); ?></h4>
+          <h4 style="font-size: 1rem;"><?php the_field( 'team_member_title' ); ?></h4>
         </div>
       <?php endwhile; ?>
     <?php endif; ?>
@@ -49,7 +49,7 @@
   <?php if ( $team_query->have_posts() ) : ?>
   <div class="row mb-5">
     <?php while ( $team_query->have_posts() ) : $team_query->the_post(); ?>
-    <div class="col-12 col-sm-6 col-lg-4 p-3">
+    <div class="col-6 col-sm-4 col-lg-3 p-3">
       <a href="<?php echo get_permalink(); ?>">
         <div class="image mb-3">
           <img class="img-fluid" src="<?php the_post_thumbnail_url( 'full' ); ?>" alt="">

@@ -110,6 +110,31 @@
     </div>
   </main>
 
+  <section class="bg-gray p-3">&nbsp</section>
+
+  <section class="container">
+    <?php
+      $team_args = array(
+        'post_type' => 'team',
+        'posts_per_page' => -1
+      );
+      $team_query = new WP_Query($team_args);
+    ?>
+    <?php if ( $team_query->have_posts() ) : ?>
+    <div class="row mb-5">
+      <?php while ( $team_query->have_posts() ) : $team_query->the_post(); ?>
+      <div class="col-6 col-sm-4 col-lg-3 p-3">
+        <a href="<?php echo get_permalink(); ?>">
+          <div class="image mb-3">
+            <img class="img-fluid" src="<?php the_post_thumbnail_url( 'full' ); ?>" alt="">
+          </div>
+        </a>
+      </div>
+      <?php endwhile; ?>
+    </div>
+    <?php endif; ?>
+  </section>
+
   <?php endwhile; endif; ?>
 
 <?php get_footer(); ?>
