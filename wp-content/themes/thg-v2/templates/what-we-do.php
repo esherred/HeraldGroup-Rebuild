@@ -27,29 +27,9 @@
         <section id="services">
           <div class="container-fluid">
             <div class="row">
-              <?php 
-                $services = get_field( 'services', 'options' );
-                foreach ( $services as $service ) :
-              ?>
-                <div id="<?php echo $service['service']['title'] ?>" class="col-2 px-1">
-                  <div style="background: linear-gradient(rgba(56,60,65,.6),rgba(56,60,65,.6)), url(http://placekitten.com/305/787);" class="services p-3">
-                    <div class="top">
-                      <i class="fal fa-minus d-block"></i>
-                      <?php echo $service['service']['title'] ?>
-                    </div>
-                    <div class="bottom">
-                      <div class="read">
-                        <div class="read fa-2x">
-                          <span class="fa-layers fa-fw">
-                            <i class="fal fa-square-full" style="color: #fff;"></i>
-                            <i class="fal fa-angle-right" data-fa-transform="shrink-6" style="color: #fff;"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <?php endforeach; ?>
+              <div class="col">
+                <?php echo do_shortcode( '[accordion_slider id="1"]' ); ?>
+              </div>
             </div>
           </div>
         </section>

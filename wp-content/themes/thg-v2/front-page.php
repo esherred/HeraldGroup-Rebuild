@@ -107,6 +107,14 @@
   <section id="services" class="bg-white">
     <div class="container-fluid">
       <div class="row">
+        <div class="col">
+          <?php echo do_shortcode( '[accordion_slider id="1"]' ); ?>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="container-fluid">
+      <div class="row">
         <?php 
           $services = get_field( 'services', 'options' );
           foreach ( $services as $service ) :
@@ -131,7 +139,7 @@
           </div>
         <?php endforeach; ?>
       </div>
-    </div>
+    </div> -->
   </section>
 
   <section class="bg-white">
