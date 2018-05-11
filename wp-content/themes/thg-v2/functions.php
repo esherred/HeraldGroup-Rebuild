@@ -10,9 +10,9 @@ register_nav_menu('main', 'Main Nav');
 register_nav_menu('footer', 'Footer Nav');
 
 add_theme_support('post-thumbnails');
-add_image_size('large', 700, '', true); // Large Thumbnail
-add_image_size('medium', 250, '', true); // Medium Thumbnail
-add_image_size('small', 120, '', true); // Small Thumbnail
+add_image_size('large', 700, '', true);
+add_image_size('medium', 250, '', true);
+add_image_size('small', 120, '', true);
 add_image_size('custom-size', 700, 200, true);
 add_image_size('slider', '', 400, true);
 

@@ -178,7 +178,7 @@
                             "key": "field_5af31321c8fcd",
                             "label": "image",
                             "name": "image",
-                            "type": "image",
+                            "type": "image_crop",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
@@ -187,16 +187,16 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "return_format": "array",
-                            "preview_size": "custom-size",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": ""
+                            "crop_type": "hard",
+                            "target_size": "custom-size",
+                            "width": "",
+                            "height": "",
+                            "preview_size": "medium",
+                            "force_crop": "no",
+                            "save_in_media_library": "yes",
+                            "retina_mode": "no",
+                            "save_format": "id",
+                            "library": "all"
                         }
                     ]
                 }
@@ -435,5 +435,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1526000945
+    "modified": 1526096112
 }
