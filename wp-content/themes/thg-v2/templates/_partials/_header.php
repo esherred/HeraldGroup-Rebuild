@@ -2,8 +2,8 @@
       <nav class="navbar navbar-expand-lg justify-content-between">
         <div class="container">
           <a class="navbar-brand" href="/"><h1 class="text-hide m-0">The Hearld Group</h1></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#hgNavDrop" aria-controls="hgNavDrop" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fal fa-bars"></i>
           </button>
           <?php
             wp_nav_menu([

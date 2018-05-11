@@ -107,6 +107,7 @@ a {
 // Main Design
 body {
   background-color: $white;
+  overflow-x: hidden;
   &.gray {
     background-color: $gray;
   }
@@ -114,6 +115,9 @@ body {
     nav {
       &.navbar {
         background-color: $blue;
+        button {
+          color: $white;
+        }
         .navbar-brand {
           h1 {
             background-image: url('./asets/img/logo.png');
@@ -133,10 +137,24 @@ body {
               &.nav-link {
                 padding-left: 1rem !important;
                 padding-right: 1rem !important;
+                text-align: right;
+
+                @media (max-width: 991px) {
+                  font-size: 24px;
+                }
+
               }
             }
           }
         }
+      }
+    }
+  }
+
+  .home-section {
+    &:last-child {
+      .border-bottom-1 {
+        border-bottom: 0px;
       }
     }
   }
@@ -322,6 +340,7 @@ body {
               transform: translateX(-50%) translateY(-50%);
       min-width: 100%; 
       min-height: 100%;
+      margin: auto;
       z-index: -100;
     }
     #hero-overlay {

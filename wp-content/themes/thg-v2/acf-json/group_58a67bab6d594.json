@@ -1,0 +1,62 @@
+{
+    "key": "group_58a67bab6d594",
+    "title": "Headline & Subhead",
+    "fields": [
+        {
+            "key": "field_58a67caf0a4ad",
+            "label": "Headline",
+            "name": "headline",
+            "type": "textarea",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_58a67be7bb7e7",
+            "label": "Subhead",
+            "name": "subhead",
+            "type": "textarea",
+            "instructions": "If applicable to the page's template, this text will appear as the subhead for this page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1525999661
+}
