@@ -2,6 +2,10 @@
 
 require_once('asets/inc/bs4navwalker.php');
 
+@ini_set( 'upload_max_size' , '64M' );
+@ini_set( 'post_max_size', '64M');
+@ini_set( 'max_execution_time', '300' );
+
 register_nav_menu('main', 'Main Nav');
 register_nav_menu('footer', 'Footer Nav');
 
