@@ -45,6 +45,17 @@
   background-color: #0a6992;
 }
 
+button.btn-primary {
+  background-color: #0a6992;
+}
+button.btn-light {
+  background-color: transparent;
+}
+button.btn-light:hover {
+  background-color: #0a6992;
+  color: #fff;
+}
+
 .border-bottom-1 {
   border-bottom: 1px solid #d2d2d2;
 }
@@ -121,6 +132,9 @@ body .home-section:last-child .border-bottom-1 {
 body section#herald {
   color: #fff;
 }
+body section#herald h2 {
+  color: #fff;
+}
 body section#herald span {
   color: #0fb6ed;
 }
@@ -191,6 +205,44 @@ body main #careers .post {
 body main #careers .post:last-child {
   border-bottom: 1px solid #d2d2d2;
 }
+body main .line-item .post {
+  border-bottom: 1px solid #d2d2d2;
+}
+body main .line-item:nth-child(2) .post {
+  border-top: 1px solid #d2d2d2;
+}
+body main .line-item:nth-child(3) .post {
+  border-top: 1px solid #d2d2d2;
+}
+@media (max-width: 991px) {
+  body main .line-item:nth-child(3) .post {
+    border-top: 0px;
+  }
+}
+body main .points h2 {
+  font-size: 2.5rem;
+}
+body main .points ol {
+  font-family: "source-sans-pro", sans-serif;
+  font-weight: 300;
+  list-style: none;
+  counter-reset: li;
+}
+body main .points ol li:before {
+  font-family: "source-sans-pro", sans-serif;
+  font-weight: 300;
+  counter-increment: li;
+  content: counter(li,decimal-leading-zero) ".";
+  margin-right: 2rem;
+  color: #d2d2d2;
+  font-size: 1rem;
+  display: table-cell;
+}
+body main .points ol li + div {
+  font-family: "source-sans-pro", sans-serif;
+  font-weight: 300;
+  font-size: 1.5rem;
+}
 body footer section.top {
   color: #fff;
 }
@@ -210,6 +262,12 @@ body footer section.top div {
 }
 body footer section.top div.dash {
   margin: 0 0 0 -2.25rem;
+}
+body footer section.top div.dash a {
+  color: #fff;
+}
+body footer section.top div.dash a:hover {
+  color: #0fb6ed;
 }
 body footer section.top div.carrott {
   margin: 0 0 0 -1.375rem;

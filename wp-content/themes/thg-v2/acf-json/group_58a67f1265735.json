@@ -1,0 +1,71 @@
+{
+    "key": "group_58a67f1265735",
+    "title": "Masthead Caption",
+    "fields": [
+        {
+            "key": "field_58a67f47e7e59",
+            "label": "Masthead Caption",
+            "name": "masthead_caption",
+            "type": "textarea",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page",
+                "operator": "==",
+                "value": "19"
+            }
+        ],
+        [
+            {
+                "param": "page",
+                "operator": "==",
+                "value": "367"
+            }
+        ],
+        [
+            {
+                "param": "page",
+                "operator": "==",
+                "value": "17"
+            }
+        ],
+        [
+            {
+                "param": "page",
+                "operator": "==",
+                "value": "15"
+            }
+        ],
+        [
+            {
+                "param": "page",
+                "operator": "==",
+                "value": "9"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 0,
+    "description": "",
+    "modified": 1526337550
+}

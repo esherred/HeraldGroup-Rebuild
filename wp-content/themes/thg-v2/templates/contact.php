@@ -1,28 +1,33 @@
 <?php /* Template Name: Contact Page Template */ get_header(); ?>
 
-            <div id="masthead" class="masthead masthead--contact">
-                <div class="container">
-                    <div class="masthead-body">
-                        <h1><?php the_field('headline'); ?></h1>
-                        <?php if (get_field('subhead')) : ?>
-                            <h3><?php the_field('subhead'); ?></h3>
-                        <?php endif; ?>
-                    </div>
-                    <div class="masthead-footer">
-                        <p><?php the_field('masthead_caption'); ?></p>
-                    </div>
-                </div>
+  <main class="container">
+    <div class="bg-white">
+        <div class="container">
+          <div class="row px-5 pt-5 pb-3">
+            <div class="col-12 mb-3">
+              <h1 class="invisible d-none"><?php the_title(); ?></h1>
+              <h2><?php the_field('headline'); ?></h2>
             </div>
-
-            <div class="container">
-                <div class="main" role="main">
-                    <section class="section section--contact">
-                        <div class="internal-container">
-                            <div class="form form--contact">
-                                <?php echo do_shortcode( '[contact-form-7 id="21" title="Contact Form"]' ); ?>
-                            </div>
-                        </div>
-                    </section>
+            <div class="col-12">
+              <?php if (get_field('subhead')) : ?>
+                <p><?php the_field('subhead'); ?></p>
+              <?php endif; ?>
+            </div>
+          </div>
+          <?php if(get_the_post_thumbnail_url()): ?>
+              <div class="row px-5 py-3">
+                <div class="col-12 text-center">
+                  <img src="<?php the_post_thumbnail_url( 'full' ); ?>" class="img-fluid" alt="">
                 </div>
+              </div>
+          <?php endif; ?>
+        </div>
+      </div>
+    <div class="row px-5">
+      <div class="col-12">
+        <?php echo do_shortcode( '[contact-form-7 id="21" title="Contact Form"]' ); ?>
+      </div>
+    </div>
+  </main>
 
 <?php get_footer(); ?>

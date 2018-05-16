@@ -1,1 +1,1 @@
-$(".carousel").carousel({interval:0});
+jQuery(function($){$("#clientList").carousel({interval:3e3,pause:!1});var t=$(".grid").isotope({itemSelector:".grid-item",layoutMode:"fitRows"});$(".filter-button-group").on("click","button",function(){var i=$(this).attr("data-filter");t.isotope({filter:i})}),$("button.filter").on("click",function(){$("button.btn-primary").addClass("btn-light").removeClass("btn-primary"),$(this).removeClass("btn-light").addClass("btn-primary")})});

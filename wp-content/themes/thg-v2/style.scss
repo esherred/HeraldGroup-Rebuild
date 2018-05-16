@@ -69,6 +69,18 @@ $header-font: "source-sans-pro",sans-serif;
     background-color: $blue;
   }
 }
+button {
+  &.btn-primary {
+    background-color: $blue;
+  }
+  &.btn-light {
+    background-color: transparent;
+    &:hover {
+      background-color: $blue;
+      color: $white;
+    }
+  }
+}
 
 .border-bottom-1 {
   border-bottom: 1px solid $lightgray;
@@ -162,6 +174,9 @@ body {
   section {
     &#herald {
       color: $white;
+      h2 {
+        color: $white;
+      }
       span {
         color: $lightblue;
       }
@@ -259,6 +274,56 @@ body {
         }
       }
     }
+    .line-item {
+      .post {
+        border-bottom: 1px solid $lightgray;
+      }
+      &:nth-child(2) {
+        .post {
+          border-top: 1px solid $lightgray;
+        }
+      }
+      &:nth-child(3) {
+        .post {
+          border-top: 1px solid $lightgray;
+          @media (max-width: 991px) {
+            border-top: 0px;
+          }
+        }
+      }
+    }
+    
+    .points {
+      h2 {
+        font-size: 2.5rem;
+      }
+      ol {
+        font-family: $header-font;
+        font-weight: 300;
+        list-style: none;
+        counter-reset: li;
+
+        li {
+          &:before {
+            font-family: $header-font;
+            font-weight: 300;
+            counter-increment: li;
+            content: counter(li, decimal-leading-zero)'.';
+            margin-right: 2rem;
+            color: $lightgray;
+            font-size: 1rem;
+            display: table-cell;
+          }
+
+          &+div {
+            font-family: $header-font;
+            font-weight: 300;
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+
   }
 
   footer {
@@ -280,6 +345,13 @@ body {
           font-weight: 300;
           &.dash {
             margin: 0 0 0 -2.25rem;
+
+            a {
+              color: $white;
+              &:hover {
+                color: $lightblue;
+              }
+            }
           }
           &.carrott {
             margin: 0 0 0 -1.375rem;

@@ -42,32 +42,49 @@
             </div>
           </div>
           <?php if( get_sub_field( 'slider_images' ) ) : ?>
-            <div class="row mt-5">
-              <div class="col-12 text-center">
-                <div class="row">
-                  <div class="col-12 mb-3">
-                    <div id="home_section_<?php echo get_row_index(); ?>" class="carousel slide fade-carousel" data-ride="carousel">
-                      <div class="carousel-inner" style="max-height: 400px;">
-                        <?php foreach( get_sub_field( 'slider_images' ) as $count => $image ) : ?>
-                          <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>">
-                            <img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
-                          </div>
-                        <?php endforeach; ?>
-                      </div>
+
+            <?php if( get_sub_field( 'is_client_list' ) ) : ?>
+              <div class="row mt-5">
+                <div class="col-12 text-center">
+                  <div id="clientList" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <?php foreach( get_sub_field( 'slider_images' ) as $count => $image ) : ?>
+                        <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>" style="height: 100px;">
+                          <img class="d-inline-block m-auto img-fluid h-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
+                        </div>
+                      <?php endforeach; ?>
                     </div>
                   </div>
-                  <?php if ( count( get_sub_field( 'slider_images' ) ) > 1) : ?>
-                    <div class="col-2 counter">1 / <?php echo count( get_sub_field( 'slider_images' ) ); ?></div>
-                    <div class="col-8 py-2">
-                      <div class="progress" style="height: 1px;">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo 100/count( get_field( 'home_section_<?php echo get_row_index(); ?>', 'options' )['slider_images'] ); ?>%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="<?php echo count( get_field( 'home_section_<?php echo get_row_index(); ?>', 'options' )['slider_images'] ); ?>"></div>
-                      </div>
-                    </div>
-                    <div class="col-2"><a href="#home_section_<?php echo get_row_index(); ?>" role="button" data-slide="prev"><i class="fal fa-long-arrow-left mx-1" data-fa-transform="up-3"></i></a> <a href="#home_section_<?php echo get_row_index(); ?>" role="button" data-slide="next"><i class="fal fa-long-arrow-right mx-1" data-fa-transform="up-3"></i></a></div>
-                  <?php endif; ?>
                 </div>
               </div>
-            </div>
+            <?php else : ?>
+              <div class="row mt-5">
+                <div class="col-12 text-center">
+                  <div class="row">
+                    <div class="col-12 mb-3">
+                      <div id="home_section_<?php echo get_row_index(); ?>" class="carousel slide static fade-carousel" data-ride="carousel">
+                        <div class="carousel-inner" style="max-height: 400px;">
+                          <?php foreach( get_sub_field( 'slider_images' ) as $count => $image ) : ?>
+                            <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>">
+                              <img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
+                            </div>
+                          <?php endforeach; ?>
+                        </div>
+                      </div>
+                    </div>
+                    <?php if ( count( get_sub_field( 'slider_images' ) ) > 1) : ?>
+                      <div class="col-2 counter">1 / <?php echo count( get_sub_field( 'slider_images' ) ); ?></div>
+                      <div class="col-8 py-2">
+                        <div class="progress" style="height: 1px;">
+                          <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo 100/count( get_field( 'home_section_<?php echo get_row_index(); ?>', 'options' )['slider_images'] ); ?>%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="<?php echo count( get_field( 'home_section_<?php echo get_row_index(); ?>', 'options' )['slider_images'] ); ?>"></div>
+                        </div>
+                      </div>
+                      <div class="col-2"><a href="#home_section_<?php echo get_row_index(); ?>" role="button" data-slide="prev"><i class="fal fa-long-arrow-left mx-1" data-fa-transform="up-3"></i></a> <a href="#home_section_<?php echo get_row_index(); ?>" role="button" data-slide="next"><i class="fal fa-long-arrow-right mx-1" data-fa-transform="up-3"></i></a></div>
+                    <?php endif; ?>
+                  </div>
+                </div>
+              </div>
+            <?php endif; ?>
           <?php endif; ?>
         </div>
       </section>
@@ -78,11 +95,11 @@
     <div class="container p-5">
       <div class="row mb-5">
         <div class="col-12 col-lg-6">
-          <h2>Cool blog (the Sphere).<br>Cool people. Cool innovations.<br>Cool creative works.</h2>
+          <?php echo get_field( 'cool_stuff', 'options' )['cool_stuff_headline']; ?>
         </div>
         <div class="col-12 col-lg-6">
-          <p>For unique insights from our professional staff, please visit our blog, The Sphere.  Also, please take a look at some cool people, cool innovations and cool creative works developed by The Herald Group and others we admire.</p>
-          <p><a href="#"><strong>Cool Stuff ></strong></a></p>
+          <?php echo get_field( 'cool_stuff', 'options' )['cool_stuff_content']; ?>
+          <p><a href="<?php echo get_field( 'cool_stuff', 'options' )['link_page']; ?>"><strong><?php echo get_field( 'cool_stuff', 'options' )['link_text']; ?> <i class="fal fa-angle-right"></i></strong></a></p>
         </div>
       </div>
       <div class="row">
@@ -98,7 +115,7 @@
             <div class="col-12 col-lg-6">
               <div class="snippet d-table">
                 <div class="image mb-3">
-                  <a href="<?php the_permalink(); ?>"><img src="<?php the_post_thumbnail_url( 'large' ); ?>" class="img-fluid" alt=""></a>
+                  <a href="<?php the_permalink(); ?>"><img src="<?php the_post_thumbnail_url( 'square' ); ?>" class="img-fluid w-100" alt=""></a>
                 </div>
                 <div class="content p-3">
                   <h2><?php the_title(); ?></h2>

@@ -6,7 +6,8 @@
         <div class="container">
           <div class="row px-5 pt-5 pb-3">
             <div class="col-12 col-lg-6">
-              <h1><?php the_field('headline'); ?></h1>
+              <h1 class="invisible d-none"><?php the_title(); ?></h1>
+              <h2><?php the_field('headline'); ?></h2>
             </div>
             <div class="col-12 col-lg-6">
               <?php if (get_field('subhead')) : ?>

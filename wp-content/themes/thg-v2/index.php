@@ -5,7 +5,8 @@
         <?php the_post(); ?>
         <div class="row p-5">
           <div class="col-12 col-lg-6">
-            <h1><?php the_field('headline'); ?></h1>
+            <h1 class="invisible d-none"><?php the_title(); ?></h1>
+            <h2><?php the_field('headline'); ?></h2>
           </div>
           <div class="col-12 col-lg-6">
             <?php if (get_field('subhead')) : ?>
@@ -43,7 +44,7 @@
             <?php while( $results_query->have_posts() ) : $results_query->the_post(); ?>
               <div class="col-3 h-250 p-2">
                 <a href="<?php the_permalink(); ?>">
-                  <div class="masonary-item px-3 py-4 d-table w-100 h-100" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(<?php the_post_thumbnail_url( 'large' ); ?>);">
+                  <div class="masonary-item px-3 py-4 d-table w-100 h-100" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(<?php the_post_thumbnail_url( 'square' ); ?>);">
                     <div class="d-table-cell align-bottom"><?php the_title(); ?></div>
                   </div>
                 </a>

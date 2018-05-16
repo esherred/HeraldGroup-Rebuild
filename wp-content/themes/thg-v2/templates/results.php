@@ -5,7 +5,8 @@
         <?php the_post(); ?>
         <div class="row p-5">
           <div class="col-12 col-lg-6">
-            <h1><?php the_field('headline'); ?></h1>
+            <h1 class="invisible d-none"><?php the_title(); ?></h1>
+            <h2><?php the_field('headline'); ?></h2>
           </div>
           <div class="col-12 col-lg-6">
             <?php if (get_field('subhead')) : ?>
@@ -25,9 +26,17 @@
     <div class="bg-gray">
       <div class="container">
         <div class="row">
-          <div class="col my-5 text-center">
-            Filters:
-            Filter 1 | Filter 2 | Filter 3
+          <div class="col mt-5 mb-4 text-center filter-button-group">
+            <?php 
+            $terms = get_terms( array(
+                'taxonomy' => 'case_study_category',
+                'hide_empty' => true,
+            ) );
+            ?>
+            <button class="filter btn btn-primary btn-sm mb-1" data-filter="*">All</button>
+            <?php foreach ($terms as $term): ?>
+              | <button class="filter btn btn-light btn-sm mb-1" data-filter=".<?php echo $term->slug ?>"><?php echo $term->name ?></button>
+            <?php endforeach ?>
           </div>
         </div>
         <?php
@@ -41,11 +50,21 @@
         ?>
 
         <?php if ( $results_query->have_posts() ) : ?>
-          <div class="row mb-5">
+          <div class="row mb-5 grid">
             <?php while( $results_query->have_posts() ) : $results_query->the_post(); ?>
-              <div class="col-3 h-250 p-2">
+              <?php
+                $terms = [];
+                foreach (get_the_terms( get_the_ID(), 'case_study_category' ) as $term) {
+                  $terms[] = $term->slug;
+                }
+                $feature = get_the_post_thumbnail_url( $results_query->get_the_ID(), 'large' );
+                if (!$feature) {
+                  $feature = '/wp-content/uploads/2016/08/Copy-of-IMGP1398.jpg';
+                }
+              ?>
+              <div class="grid-item col-3 h-250 p-2 <?php echo implode( ' ', $terms ); ?>">
                 <a href="<?php the_permalink(); ?>">
-                  <div class="masonary-item px-3 py-4 d-table w-100 h-100" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(<?php echo $results_query->get_post_thumbnail() ? $results_query->get_post_thumbnail() : 'http://thg.test/wp-content/uploads/2016/08/Copy-of-IMGP1398.jpg'; ?>);">
+                  <div class="masonary-item px-3 py-4 d-table w-100 h-250" style="background-image: linear-gradient(rgba(28,27,27,.5), rgba(28,27,27,.5)), url(<?php echo $feature; ?>);">
                     <div class="d-table-cell align-bottom"><?php the_title(); ?></div>
                   </div>
                 </a>
