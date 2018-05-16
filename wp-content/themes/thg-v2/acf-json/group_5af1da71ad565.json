@@ -38,6 +38,30 @@
             "mime_types": ""
         },
         {
+            "key": "field_5afc8f8dd5c5a",
+            "label": "Background Poster",
+            "name": "poster",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "preview_size": "large",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
             "key": "field_5af4a2372e5c1",
             "label": "Home Link",
             "name": "home_link",
@@ -538,5 +562,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1526433601
+    "modified": 1526519301
 }

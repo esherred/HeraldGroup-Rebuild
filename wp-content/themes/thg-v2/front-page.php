@@ -1,6 +1,6 @@
 <?php get_header( 'front' ); the_post(); ?>
   
-  <video id="heroVideo" poster="http://www.dcigroup.com//wp-content/themes/dcigroup/assets/storage/video/home-1.jpg" autoplay muted loop>
+  <video id="heroVideo" poster="<?php echo get_field( 'poster', 'options' ); ?>" autoplay muted loop>
     <source src="<?php echo get_field( 'background', 'options' ); ?>" type="video/mp4">
   </video>
   <div id="hero-overlay"></div>
