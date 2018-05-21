@@ -14,7 +14,7 @@
         <?php endif; ?>
         <?php if( get_field( 'home_link', 'options' ) ) : ?>
           <div class="my-2">
-            <a class="btn btn-primary btn-lg" href="<?php the_field( 'home_link', 'options' ) ?>" role="button">Learn more</a>
+            <a class="btn btn-primary" href="<?php the_field( 'home_link', 'options' ) ?>" role="button">Learn more</a>
           </div>
         <?php endif; ?>
       </div>
@@ -66,7 +66,7 @@
                         <div class="carousel-inner" style="max-height: 400px;">
                           <?php foreach( get_sub_field( 'slider_images' ) as $count => $image ) : ?>
                             <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>">
-                              <img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
+                              <a href="<?php the_sub_field( 'destination_page' ); ?>"><img class="img-fluid w-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="<?php the_sub_field( 'destination_text' ); ?>"></a>
                             </div>
                           <?php endforeach; ?>
                         </div>
@@ -106,21 +106,21 @@
         <?php
           $results_args = array(
             'post_type' => 'post',
-            'posts_per_page' => 2
+            'posts_per_page' => 4
           );
           $results_query = new WP_Query($results_args);
         ?>
         <?php if ( $results_query->have_posts() ) : ?>
           <?php while( $results_query->have_posts() ) : $results_query->the_post(); ?>
-            <div class="col-12 col-lg-6">
-              <div class="snippet d-table">
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="snippet d-table mb-3">
                 <div class="image mb-3">
                   <a href="<?php the_permalink(); ?>"><img src="<?php the_post_thumbnail_url( 'square' ); ?>" class="img-fluid w-100" alt=""></a>
                 </div>
-                <div class="content p-3">
-                  <h2><?php the_title(); ?></h2>
+                <div class="content px-3">
+                  <h2 class="display-5"><?php the_title(); ?></h2>
                 </div>
-                <div class="more p-3">
+                <div class="more px-3 mt-3">
                   <a href="<?php the_permalink(); ?>">READ ON <i class="fal fa-angle-right"></i></a>
                 </div>
               </div>

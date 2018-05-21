@@ -32,7 +32,7 @@
       <div class="container-fluid">
         <div class="row py-5 justify-content-end">
           <div class="col-12 col-md-7 ">
-            <h2>Culture<br>Six Pillars</h2>
+            <h2>Culture: Our Six Pillars</h2>
             <div class="points">
               <ol class="p-0 d-table">
                 <?php while( has_sub_field( 'culture' ) ) : ?>

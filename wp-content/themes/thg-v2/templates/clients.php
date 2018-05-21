@@ -30,7 +30,6 @@ the_post();
     <div class="bg-gray">
       <div class="container">
         <div class="row px-5 py-3">
-          <div class="col-12 text-center" style="text-transform: uppercase;"><small>Partial Client List</small></div>
           <div class="col-12">
             <div class="row align-items-center">
               <?php if( have_rows( 'clients' ) ) : ?>
@@ -57,7 +56,6 @@ the_post();
                 <div class="post p-3">
                   <h5 class="mb-0 d-flex justify-content-between">
                     <div><?php the_sub_field( 'industry' ); ?></div>
-                    <div><i class="fal fa-long-arrow-right"></i></div>
                   </h5>
                 </div>
               </div>

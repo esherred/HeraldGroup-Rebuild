@@ -115,6 +115,10 @@ a {
   }
 }
 
+.display-5 {
+  font-size: 1.5rem;
+}
+
 
 // Main Design
 body {
@@ -226,6 +230,7 @@ body {
   main {
     min-height: 300px;
     background-color: $white;
+
     &.gray {
       background-color: $gray;
     }

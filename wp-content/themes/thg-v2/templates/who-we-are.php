@@ -70,64 +70,6 @@
   </div>
   <?php endif; ?>
   
-  <?php if ( $team_query->have_posts() ) : ?>
-  <?php 
-    $teamArray = [];
-    $sortedTeamArray = [];
-  ?>
-  <?php while ( $team_query->have_posts() ) : $team_query->the_post(); ?>
-  <?php
-    $firstName = get_field('team_member_first_name');
-    $lastName = get_field('team_member_last_name');
-    $post->firstName = $firstName;
-    $post->lastName = $lastName;
-    if(array_key_exists($lastName[0], $teamArray)) {
-        array_push($teamArray[$lastName[0]], $post);
-    }
-    else {
-        $teamArray[$lastName[0]] = [];
-        array_push($teamArray[$lastName[0]], $post);
-    }
-  ?>
-  <?php endwhile; ?>
-  <?php
-  
-  function compare_fullname($a, $b)
-    {
-      // sort by last name
-      $retval = strnatcmp($a->lastName, $b->lastName);
-      // if last names are identical, sort by first name
-      if (!$retval) {
-          $retval = strnatcmp($a->firstName, $b->firstName);
-      }
-      return $retval;
-    }
-  
-  ksort($teamArray);
-  
-  foreach($teamArray as $key => $teamArrayLetter) {
-      usort($teamArrayLetter, __NAMESPACE__ . '\compare_fullname');
-      $sortedTeamArray[$key] = $teamArrayLetter;
-  }
-      
-  ?>
-  <div class="row">
-    <?php foreach($sortedTeamArray as $key => $teamGroup) : ?>
-      <div class="col-12 col-md-6 col-lg-4 mb-3">
-        <div class="listing-label"><?php echo $key; ?></div>
-        <div class="listing-contents">
-          <ul>
-            <?php foreach($teamGroup as $teamMember) : ?>
-              <li>
-                <a href="<?php echo get_permalink($teamMember->ID); ?>"><?php echo $teamMember->lastName; ?>, <?php echo $teamMember->firstName; ?></a>
-              </li>
-            <?php endforeach; ?>
-          </ul>
-        </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
-  <?php endif; ?>
   <?php wp_reset_query(); ?>
 
 </main>
