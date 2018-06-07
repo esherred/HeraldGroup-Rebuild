@@ -29,7 +29,8 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col">
-                <?php echo do_shortcode( '[accordion_slider id="1"]' ); ?>
+                <!-- <?php echo do_shortcode( '[accordion_slider id="1"]' ); ?> -->
+                <?php echo do_shortcode( '[aas_slider id=897]' ); ?>
               </div>
             </div>
           </div>

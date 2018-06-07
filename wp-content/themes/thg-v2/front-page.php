@@ -46,14 +46,12 @@
             <?php if( get_sub_field( 'is_client_list' ) ) : ?>
               <div class="row mt-5">
                 <div class="col-12 text-center">
-                  <div id="clientList" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <?php foreach( get_sub_field( 'slider_images' ) as $count => $image ) : ?>
-                        <div class="carousel-item <?php echo $count == 0 ? 'active' : '' ?>" style="height: 100px;">
-                          <img class="d-inline-block m-auto img-fluid h-100" src="<?php echo $image['image']['sizes']['slider']; ?>" alt="">
-                        </div>
-                      <?php endforeach; ?>
-                    </div>
+                  <div class="slider responsive">
+                    <?php foreach( get_sub_field( 'slider_images' ) as $count => $image ) : ?>
+                      <div class="slider-item">
+                        <img style="width: 100%; height: auto; padding: 5px;" src="<?php echo $image['image']['sizes']['slider']; ?>">
+                      </div>
+                    <?php endforeach; ?>
                   </div>
                 </div>
               </div>
