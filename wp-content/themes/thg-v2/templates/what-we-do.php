@@ -29,7 +29,11 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col">
-                <?php echo do_shortcode( '[aas_slider id=905]' ); ?>
+                <?php if( $_SERVER['SERVER_NAME'] == 'thg.test' ) {
+                  echo do_shortcode( '[aas_slider id=897]' );
+                } else {
+                  echo do_shortcode( '[aas_slider id=905]' );
+                } ?>
               </div>
             </div>
           </div>

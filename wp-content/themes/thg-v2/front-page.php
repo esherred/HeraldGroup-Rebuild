@@ -48,8 +48,12 @@
                 <div class="col-12 text-center">
                   <div class="slider responsive">
                     <?php foreach( get_sub_field( 'slider_images' ) as $count => $image ) : ?>
-                      <div class="slider-item">
-                        <img style="width: 100%; height: auto; padding: 5px;" src="<?php echo $image['image']['sizes']['slider']; ?>">
+                      <div class="d-table h-100">
+                        <div class="d-row h-100">
+                          <div class="slider-item d-table-cell align-middle">
+                            <img style="width: 100%; height: auto; padding: 5px;" src="<?php echo $image['image']['sizes']['slider']; ?>">
+                          </div>
+                        </div>
                       </div>
                     <?php endforeach; ?>
                   </div>
