@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="col-4 py-5 d-none d-md-block">
-            <img src="<?php echo get_template_directory_uri(); ?>/asets/img/values.png" class="img-fluid">
+            <img src="<?php echo get_template_directory_uri(); ?>/asets/img/AboutUs.png" class="img-fluid">
           </div>
         </div>
       </div>

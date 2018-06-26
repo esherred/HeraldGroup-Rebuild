@@ -163,6 +163,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/asets\/img\/AboutUs.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 637153,
+		"inputAbbreviatedPath": "\/asets\/img\/AboutUs.png",
+		"outputAbbreviatedPath": "\/asets\/img\/AboutUs.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/asets\/img\/logo.png": {
 		"fileType": 32768,
 		"ignore": 0,
