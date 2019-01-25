@@ -26,7 +26,7 @@
     <div class="bg-gray">
       <div class="container">
         <div class="row">
-          <div class="col mt-5 mb-4 text-center filter-button-group">
+          <!-- <div class="col mt-5 mb-4 text-center filter-button-group">
             <?php 
             $terms = get_terms( array(
                 'taxonomy' => 'case_study_category',
@@ -37,7 +37,7 @@
             <?php foreach ($terms as $term): ?>
               | <button class="filter btn btn-light btn-sm mb-1" data-filter=".<?php echo $term->slug ?>"><?php echo $term->name ?></button>
             <?php endforeach ?>
-          </div>
+          </div> -->
         </div>
         <?php
           $results_args = array(
@@ -50,7 +50,7 @@
         ?>
 
         <?php if ( $results_query->have_posts() ) : ?>
-          <div class="row mb-5 grid">
+          <div class="row my-5 grid">
             <?php while( $results_query->have_posts() ) : $results_query->the_post(); ?>
               <?php
                 $terms = [];
