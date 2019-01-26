@@ -1,16 +1,3 @@
-/*
-  Theme Name: Herald Group v2
-  Theme URI: http://html5blank.com
-  Description: Bootstrap 4 WordPress Theme for Herald Group
-  Version: 2.0.0
-  Author: Eric Sherred (@ericsherred)
-  Author URI: http://ericsherred.com
-  Tags: Bootstrap4, HTML5, CSS3
-
-  License: MIT
-  License URI: http://opensource.org/licenses/mit-license.php
-*/
-
 // Colors
 $blue: #0a6992;
 
@@ -453,4 +440,17 @@ body {
       line-height: 1rem;
     }
   }
+}
+
+.as-mask {
+	.as-closed {
+		&.as-black {
+			font-size: 2rem;
+		}
+	}
+	.as-opened {
+		&.as-white, &.as-black {
+			font-size: 1.75rem;
+		}
+	}
 }

@@ -22,7 +22,7 @@ acf_add_options_page();
 add_action('wp_enqueue_scripts', 'thg_enque_files');
 function thg_enque_files() {
 
-  wp_enqueue_style('style', get_stylesheet_uri());
+  wp_enqueue_style('theme', get_template_directory_uri() . '/asets/css/theme.css');
   
   wp_enqueue_script( 'fontawesome-js', get_template_directory_uri() . '/asets/js/fontawesome-all.js');
 

@@ -30,7 +30,7 @@
             <div class="row">
               <div class="col">
                 <?php if( $_SERVER['SERVER_NAME'] == 'thg.test' ) {
-                  echo do_shortcode( '[aas_slider id=897]' );
+                  echo do_shortcode( '[aas_slider id="905"]' );
                 } else {
                   echo do_shortcode( '[aas_slider id=905]' );
                 } ?>
