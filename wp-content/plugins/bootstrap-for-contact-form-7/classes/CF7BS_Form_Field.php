@@ -126,13 +126,13 @@ class CF7BS_Form_Field extends CF7BS_Component {
 					if ( 'horizontal' == $form_layout ) {
 						$output .= '<div class="form-group' . $wrapper_class . $status . '">';
 						if ( ! empty( $label ) ) {
-							$output .= '<label class="' . esc_attr( $label_class ) . '"' . ( ! empty( $id ) ? ' for="' . esc_attr( $id ) . '"' : '' ) . '>' . esc_html( $label ) . $label_required . '</label>';
+							$output .= '<label class="' . esc_attr( $label_class ) . '"' . ( ! empty( $id ) ? ' for="' . esc_attr( $id ) . '"' : '' ) . '>' . wp_kses( $label, 'cf7bs_form_label' ) . $label_required . '</label>';
 						}
 						$output .= '<div class="' . esc_attr( $input_div_class ) . '">';
 					} elseif( 'inline' == $form_layout ) {
 						$output .= '<div class="form-group' . $wrapper_class . $status . '">';
 						if ( ! empty( $label ) ) {
-							$output .= '<label class="' . esc_attr( $label_class ) . '"' . ( ! empty( $id ) ? ' for="' . esc_attr( $id ) . '"' : '' ) . '>' . esc_html( $label ) . $label_required . '</label>';
+							$output .= '<label class="' . esc_attr( $label_class ) . '"' . ( ! empty( $id ) ? ' for="' . esc_attr( $id ) . '"' : '' ) . '>' . wp_kses( $label, 'cf7bs_form_label' ) . $label_required . '</label>';
 						}
 					} else {
 						$output .= '<div class="form-group' . $wrapper_class . $status . '">';
@@ -141,7 +141,7 @@ class CF7BS_Form_Field extends CF7BS_Component {
 							if ( in_array( $type, array( 'radio', 'checkbox' ) ) ) {
 								$rc_group_style = ' style="display:block;"';
 							}
-							$output .= '<label class="' . esc_attr( $label_class ) . '"' . ( ! empty( $id ) ? ' for="' . esc_attr( $id ) . '"' : '' ) . $rc_group_style . '>' . esc_html( $label ) . $label_required . '</label>';
+							$output .= '<label class="' . esc_attr( $label_class ) . '"' . ( ! empty( $id ) ? ' for="' . esc_attr( $id ) . '"' : '' ) . $rc_group_style . '>' . wp_kses( $label, 'cf7bs_form_label' ) . $label_required . '</label>';
 						}
 					}
 				}
@@ -153,7 +153,7 @@ class CF7BS_Form_Field extends CF7BS_Component {
 						$curval = key( $options );
 						$title = $options[ $curval ];
 						if ( false === strpos( $title, 'wpcf7-free-text' ) ) {
-							$title = esc_html( $title );
+							$title = wp_kses( $title, 'cf7bs_form_label' );
 						}
 
 						$output .= '<div class="checkbox' . $wrapper_class . '">';
@@ -191,7 +191,7 @@ class CF7BS_Form_Field extends CF7BS_Component {
 							$counter = 0;
 							foreach ( $options as $curval => $title ) {
 								if ( false === strpos( $title, 'wpcf7-free-text' ) ) {
-									$title = esc_html( $title );
+									$title = wp_kses( $title, 'cf7bs_form_label' );
 								}
 								$output .= '<label class="checkbox-inline" ' . ( ! empty( $id ) ? ' for="' . esc_attr( $id . ( $counter + 1 ) ) . '"' : '' ) .'>';
 								$output .= '<input' . $input_class . ( ! empty( $id ) ? ' id="' . esc_attr( $id . ( $counter + 1 ) ) . '"' : '' ) . ' name="' . esc_attr( $name . '[]' ) . '" type="checkbox" value="' . esc_attr( $curval ) . '"' . cf7bs_multiple_checked( $value, $curval, false ) . ( $tabindex >= 0 ? ' tabindex="' . ( $tabindex + $counter ) . '"' : '' ) . $append . '>';
@@ -203,7 +203,7 @@ class CF7BS_Form_Field extends CF7BS_Component {
 							$counter = 0;
 							foreach ( $options as $curval => $title ) {
 								if ( false === strpos( $title, 'wpcf7-free-text' ) ) {
-									$title = esc_html( $title );
+									$title = wp_kses( $title, 'cf7bs_form_label' );
 								}
 								$output .= '<div class="checkbox">';
 								$output .= '<label ' . ( ! empty( $id ) ? ' for="' . esc_attr( $id . ( $counter + 1 ) ) . '"' : '' ) . '>';
@@ -238,7 +238,7 @@ class CF7BS_Form_Field extends CF7BS_Component {
 						$curval = key( $options );
 						$title = $options[ $curval ];
 						if ( false === strpos( $title, 'wpcf7-free-text' ) ) {
-							$title = esc_html( $title );
+							$title = wp_kses( $title, 'cf7bs_form_label' );
 						}
 						$output .= '<div class="radio' . $wrapper_class . '">';
 						$output .= '<label ' . ( ! empty( $id ) ? ' for="' . esc_attr( $id ) . '"' : '' ) . '>';
@@ -275,7 +275,7 @@ class CF7BS_Form_Field extends CF7BS_Component {
 							$counter = 0;
 							foreach ( $options as $curval => $title ) {
 								if ( false === strpos( $title, 'wpcf7-free-text' ) ) {
-									$title = esc_html( $title );
+									$title = wp_kses( $title, 'cf7bs_form_label' );
 								}
 								$output .= '<label class="radio-inline"' . ( ! empty( $id ) ? ' for="' . esc_attr( $id . ( $counter + 1 ) ) . '"' : '' ) . '>';
 								$output .= '<input' . $input_class . ( ! empty( $id ) ? ' id="' . esc_attr( $id . ( $counter + 1 ) ) . '"' : '' ) . ' name="' . esc_attr( $name ) . '" type="radio" value="' . esc_attr( $curval ) . '"' . cf7bs_checked( $value, $curval, false ) . ( $tabindex >= 0 ? ' tabindex="' . ( $tabindex + $counter ) . '"' : '' ) . $append . '>';
@@ -287,7 +287,7 @@ class CF7BS_Form_Field extends CF7BS_Component {
 							$counter = 0;
 							foreach ( $options as $curval => $title ) {
 								if ( false === strpos( $title, 'wpcf7-free-text' ) ) {
-									$title = esc_html( $title );
+									$title = wp_kses( $title, 'cf7bs_form_label' );
 								}
 								$output .= '<div class="radio">';
 								$output .= '<label' . ( ! empty( $id ) ? ' for="' . esc_attr( $id . ( $counter + 1 ) ) . '"' : '' ) . '>';
@@ -323,6 +323,25 @@ class CF7BS_Form_Field extends CF7BS_Component {
 					$output .= '<input' . ( ! empty( $id ) ? ' id="' . esc_attr( $id ) . '"' : '' ) . ' name="' . esc_attr( $name ) . '" type="hidden" value="' . esc_attr( $value ) . '">';
 					break;
 				case 'number':
+					$input_class = $this->filter_input_class( $input_class, $input_before, $input_after );
+
+					$min = '';
+					if ( isset( $options['min'] ) ) {
+						$min = ' min="' . esc_attr( $options['min'] ) . '"';
+					}
+					$max = '';
+					if ( isset( $options['max'] ) ) {
+						$max = ' max="' . esc_attr( $options['max'] ) . '"';
+					}
+					$step = '';
+					if ( isset( $options['step'] ) ) {
+						$step = ' step="' . esc_attr( $options['step'] ) . '"';
+					}
+
+					$output .= $this->get_input_before_markup( $input_before, $input_after, $input_before_class, $input_class );
+					$output .= '<input' . $input_class . ( ! empty( $id ) ? ' id="' . esc_attr( $id ) . '"' : '' ) . ' name="' . esc_attr( $name ) . '" type="' . esc_attr( $type ) . '" value="' . esc_attr( $value ) . '"' . $placeholder . $min . $max . $step . $readonly . $tabindex . $append . '>';
+					$output .= $this->get_input_after_markup( $input_before, $input_after, $input_after_class );
+					break;
 				case 'range':
 				case 'date':
 				case 'datetime':
@@ -353,33 +372,11 @@ class CF7BS_Form_Field extends CF7BS_Component {
 					if ( 'static' == $mode ) {
 						$output .= '<p class="form-control-static">' . esc_html( $value ) . '</p>';
 					} else {
-						if ( ! empty( $input_before ) || ! empty( $input_after ) ) {
-							$input_group_class = 'input-group';
-							if ( false !== strpos( $input_class, ' input-lg') ) {
-								$input_class = str_replace( ' input-lg', '', $input_class );
-								$input_group_class .= ' input-group-lg';
-							} elseif ( false !== strpos( $input_class, ' input-sm') ) {
-								$input_class = str_replace( ' input-sm', '', $input_class );
-								$input_group_class .= ' input-group-sm';
-							}
-							$output .= '<div class="' . $input_group_class . '">';
-							if ( ! empty( $input_before ) ) {
-								$output .= '<span class="' . esc_attr( $input_before_class ) . '">';
-								$output .= $input_before;
-								$output .= '</span>';
-							}
-						}
+						$input_class = $this->filter_input_class( $input_class, $input_before, $input_after );
 
+						$output .= $this->get_input_before_markup( $input_before, $input_after, $input_before_class, $input_class );
 						$output .= '<input' . $input_class . ( ! empty( $id ) ? ' id="' . esc_attr( $id ) . '"' : '' ) . ' name="' . esc_attr( $name ) . '" type="' . esc_attr( $type ) . '" value="' . esc_attr( $value ) . '"' . $placeholder . $readonly . $minlength . $maxlength . $tabindex . $append . '>';
-
-						if ( ! empty( $input_before ) || ! empty( $input_after ) ) {
-							if ( ! empty( $input_after ) ) {
-								$output .= '<span class="' . esc_attr( $input_after_class ) . '">';
-								$output .= $input_after;
-								$output .= '</span>';
-							}
-							$output .= '</div>';
-						}
+						$output .= $this->get_input_after_markup( $input_before, $input_after, $input_after_class );
 					}
 					break;
 			}
@@ -402,6 +399,58 @@ class CF7BS_Form_Field extends CF7BS_Component {
 			echo $output;
 		}
 		return $output;
+	}
+
+	protected function filter_input_class( $input_class, $input_before, $input_after ) {
+		if ( empty( $input_before ) && empty( $input_after ) ) {
+			return $input_class;
+		}
+
+		if ( false !== strpos( $input_class, ' input-lg' ) ) {
+			$input_class = str_replace( ' input-lg', '', $input_class );
+		} elseif ( false !== strpos( $input_class, ' input-sm' ) ) {
+			$input_class = str_replace( ' input-sm', '', $input_class );
+		}
+
+		return $input_class;
+	}
+
+	protected function get_input_before_markup( $input_before, $input_after, $input_before_class, $input_class ) {
+		if ( empty( $input_before ) && empty( $input_after ) ) {
+			return '';
+		}
+
+		$input_group_class = 'input-group';
+		if ( false !== strpos( $input_class, ' input-lg') ) {
+			$input_group_class .= ' input-group-lg';
+		} elseif ( false !== strpos( $input_class, ' input-sm') ) {
+			$input_group_class .= ' input-group-sm';
+		}
+
+		$markup = '<div class="' . $input_group_class . '">';
+		if ( ! empty( $input_before ) ) {
+			$markup .= '<span class="' . esc_attr( $input_before_class ) . '">';
+			$markup .= $input_before;
+			$markup .= '</span>';
+		}
+
+		return $markup;
+	}
+
+	protected function get_input_after_markup( $input_before, $input_after, $input_after_class ) {
+		if ( empty( $input_before ) && empty( $input_after ) ) {
+			return '';
+		}
+
+		$markup = '';
+		if ( ! empty( $input_after ) ) {
+			$markup .= '<span class="' . esc_attr( $input_after_class ) . '">';
+			$markup .= $input_after;
+			$markup .= '</span>';
+		}
+		$markup .= '</div>';
+
+		return $markup;
 	}
 
 	protected function validate_args( $args, $exclude = array() ) {

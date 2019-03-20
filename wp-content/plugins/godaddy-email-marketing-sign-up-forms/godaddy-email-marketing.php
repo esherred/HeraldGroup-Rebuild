@@ -3,12 +3,12 @@
  * Plugin Name: GoDaddy Email Marketing
  * Plugin URI: https://gem.godaddy.com/
  * Description: Add the GoDaddy Email Marketing signup form to your WordPress site! Easy to set up, the plugin allows your site visitors to subscribe to your email lists.
- * Version: 1.2.1
+ * Version: 1.4.2
  * Author: GoDaddy
  * Author URI: https://gem.godaddy.com/
  * License: GPL-2.0
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: godaddy-email-marketing
+ * Text Domain: godaddy-email-marketing-sign-up-forms
  * Domain Path: /languages
  *
  * This plugin, like WordPress, is licensed under the GPL.
@@ -76,14 +76,15 @@ class GEM_Official {
 	 */
 	private function setup_actions() {
 		add_action( 'plugins_loaded', array( $this, 'i18n' ) );
-		add_action( 'init',           array( $this, 'init' ) );
-		add_action( 'widgets_init',   array( $this, 'register_widget' ) );
-		add_action( 'init',           array( $this, 'register_shortcode' ), 20 );
-		add_action( 'admin_notices',  array( $this, 'action_admin_notices' ) );
+		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'widgets_init', array( $this, 'register_widget' ) );
+		add_action( 'init', array( $this, 'register_shortcode' ), 20 );
+		add_action( 'init', array( $this, 'load_content_blocks' ) );
+		add_action( 'admin_notices', array( $this, 'action_admin_notices' ) );
 
 		add_filter( 'plugin_action_links_' . self::$basename, array( $this, 'action_links' ), 10 );
 
-		register_activation_hook( __FILE__,   array( $this, 'activate' ) );
+		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 	}
 
@@ -108,10 +109,10 @@ class GEM_Official {
 
 		// Plugin's main directory.
 		defined( 'GEM_VERSION' )
-			or define( 'GEM_VERSION', '1.2.1' );
+			or define( 'GEM_VERSION', '1.4.2' );
 
 		// Set up the base name.
-		isset( self::$basename ) || self::$basename = plugin_basename( __FILE__ );
+		self::$basename = isset( self::$basename ) ? self::$basename : plugin_basename( __FILE__ );
 	}
 
 	/**
@@ -128,6 +129,9 @@ class GEM_Official {
 		// The shortcode.
 		require_once GEM_PLUGIN_DIR . 'includes/class-shortcode.php';
 
+		// Content blocks.
+		require_once GEM_PLUGIN_DIR . 'includes/class-blocks.php';
+
 		// The file renders the form.
 		require_once GEM_PLUGIN_DIR . 'includes/render.php';
 
@@ -142,7 +146,7 @@ class GEM_Official {
 	 * Load translations.
 	 */
 	public function i18n() {
-		load_plugin_textdomain( 'godaddy-email-marketing', false, basename( dirname( self::$basename ) ) . '/languages' );
+		load_plugin_textdomain( 'godaddy-email-marketing-sign-up-forms', false, basename( dirname( self::$basename ) ) . '/languages' );
 	}
 
 	/**
@@ -177,6 +181,15 @@ class GEM_Official {
 	}
 
 	/**
+	 * Load content blocks.
+	 */
+	public function load_content_blocks() {
+
+		new GEM_Blocks();
+
+	}
+
+	/**
 	 * Registers the widget.
 	 */
 	public function register_widget() {
@@ -197,13 +210,18 @@ class GEM_Official {
 		wp_enqueue_style( 'gem-base', plugins_url( "css/gem{$suffix}.css", __FILE__ ), false, GEM_VERSION );
 
 		// Help strings.
-		wp_localize_script( 'gem-main', 'GEM', array(
-			'thankyou' => __( 'Thank you for signing up!', 'godaddy-email-marketing' ),
-			'thankyou_suppressed' => __( 'Thank you for signing up! Please check your email to confirm your subscription.', 'godaddy-email-marketing' ),
-			'oops' => __( 'Oops! There was a problem. Please try again.', 'godaddy-email-marketing' ),
-			'email' => __( 'Please enter a valid email address.', 'godaddy-email-marketing' ),
-			'required' => _x( '%s is a required field.', 'Name of required field', 'godaddy-email-marketing' ),
-		) );
+		wp_localize_script(
+			'gem-main',
+			'GEM',
+			array(
+				'thankyou'            => __( 'Thank you for signing up!', 'godaddy-email-marketing-sign-up-forms' ),
+				'thankyou_suppressed' => __( 'Thank you for signing up! Please check your email to confirm your subscription.', 'godaddy-email-marketing-sign-up-forms' ),
+				'oops'                => __( 'Oops! There was a problem. Please try again.', 'godaddy-email-marketing-sign-up-forms' ),
+				'email'               => __( 'Please enter a valid email address.', 'godaddy-email-marketing-sign-up-forms' ),
+				/* translators: %s: Name of required field */
+				'required'            => __( '%s is a required field.', 'godaddy-email-marketing-sign-up-forms' ),
+			)
+		);
 	}
 
 	/**
@@ -216,7 +234,7 @@ class GEM_Official {
 	public function action_links( $actions ) {
 		return array_merge(
 			array(
-				'settings' => sprintf( '<a href="%s">%s</a>', menu_page_url( 'gem-settings', false ), __( 'Settings', 'godaddy-email-marketing' ) ),
+				'settings' => sprintf( '<a href="%s">%s</a>', menu_page_url( 'gem-settings', false ), __( 'Settings', 'godaddy-email-marketing-sign-up-forms' ) ),
 			),
 			$actions
 		);
@@ -246,8 +264,9 @@ class GEM_Official {
 				<p>
 					<?php
 					printf(
-						__( 'Your website has a superpower: Email marketing. %1$s.', 'godaddy-email-marketing' ),
-						'<a href="' . admin_url( 'options-general.php?page=gem-settings' ) . '">' . __( 'Learn More', 'godaddy-email-marketing' ) . '</a>'
+						/* translators: %1$s: Link to plugin settings page with text 'Learn More'. */
+						__( 'Your website has a superpower: Email marketing. %1$s.', 'godaddy-email-marketing-sign-up-forms' ),
+						'<a href="' . admin_url( 'options-general.php?page=gem-settings' ) . '">' . __( 'Learn More', 'godaddy-email-marketing-sign-up-forms' ) . '</a>'
 					);
 					?>
 				</p>
@@ -264,16 +283,17 @@ class GEM_Official {
 			return;
 		}
 
-		$version = get_option( 'gem-version' );
+		$version  = get_option( 'gem-version' );
 		$settings = get_option( 'gem-settings' );
 
 		if ( ! $version && ( empty( $settings['username'] ) || empty( $settings['api-key'] ) ) ) {
-			update_option( 'gem-version', GEM_VERSION ); ?>
+			update_option( 'gem-version', GEM_VERSION );
+			?>
 
 			<div class="updated fade">
 				<p>
-					<strong><?php esc_html_e( 'GoDaddy Email Marketing is almost ready.', 'godaddy-email-marketing' ); ?></strong> <?php esc_html_e( 'You must enter your username &amp; API key for it to work.', 'godaddy-email-marketing' ); ?> &nbsp;
-					<a class="button" href="<?php menu_page_url( 'gem-settings' ); ?>"><?php esc_html_e( "Let's do it!", 'godaddy-email-marketing' ); ?></a>
+					<strong><?php esc_html_e( 'GoDaddy Email Marketing is almost ready.', 'godaddy-email-marketing-sign-up-forms' ); ?></strong> <?php esc_html_e( 'You must enter your username &amp; API key for it to work.', 'godaddy-email-marketing-sign-up-forms' ); ?> &nbsp;
+					<a class="button" href="<?php menu_page_url( 'gem-settings' ); ?>"><?php esc_html_e( "Let's do it!", 'godaddy-email-marketing-sign-up-forms' ); ?></a>
 				</p>
 			</div>
 

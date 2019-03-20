@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014-2018 ServMask Inc.
+ * Copyright (C) 2014-2019 ServMask Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,20 @@
  * ███████║███████╗██║  ██║ ╚████╔╝ ██║ ╚═╝ ██║██║  ██║███████║██║  ██╗
  * ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Kangaroos cannot jump here' );
+}
 ?>
 
 <div class="ai1wm-container">
 	<div class="ai1wm-row">
 		<div class="ai1wm-left">
 			<div class="ai1wm-holder">
-				<h1><i class="ai1wm-icon-export"></i> <?php _e( 'Backups', AI1WM_PLUGIN_NAME ); ?></h1>
+				<h1>
+					<i class="ai1wm-icon-export"></i>
+					<?php _e( 'Backups', AI1WM_PLUGIN_NAME ); ?>
+				</h1>
 
 				<?php include AI1WM_TEMPLATES_PATH . '/common/report-problem.php'; ?>
 
@@ -55,10 +62,27 @@
 												<br />
 											<?php endif; ?>
 											<i class="ai1wm-icon-file-zip"></i>
-											<?php echo esc_html( basename( $backup['filename'] ) ); ?>
+											<span class="ai1wm-backup-filename">
+												<?php echo esc_html( basename( $backup['filename'] ) ); ?>
+											</span>
+											<?php if ( isset( $backups_labels[ basename( $backup['filename'] ) ] ) ) : ?>
+												<span class="ai1wm-backup-label">
+													<br />
+													<span class="ai1wm-backup-label-colored">
+														<?php echo esc_html( $backups_labels[ basename( $backup['filename'] ) ] ); ?>
+													</span>
+													<i class="ai1wm-icon-edit-pencil"></i>
+												</span>
+											<?php else : ?>
+												<span class="ai1wm-add-description">
+													<br />
+													<?php _e( 'Click to set a label for this backup', AI1WM_PLUGIN_NAME ); ?>
+													<i class="ai1wm-icon-edit-pencil"></i>
+												</span>
+											<?php endif; ?>
 										</td>
 										<td class="ai1wm-column-date">
-											<?php echo human_time_diff( $backup['mtime'] ); ?> <?php _e( 'ago', AI1WM_PLUGIN_NAME ); ?>
+											<?php echo esc_html( sprintf( __( '%s ago', AI1WM_PLUGIN_NAME ), human_time_diff( $backup['mtime'] ) ) ); ?>
 										</td>
 										<td class="ai1wm-column-size">
 											<?php if ( is_null( $backup['size'] ) ) : ?>
@@ -68,16 +92,16 @@
 											<?php endif; ?>
 										</td>
 										<td class="ai1wm-column-actions ai1wm-backup-actions">
-											<a href="<?php echo ai1wm_backup_url( array( 'archive' => esc_attr( $backup['filename'] ) ) ); ?>" class="ai1wm-button-green ai1wm-button-alone ai1wm-backup-download">
-												<i class="ai1wm-icon-arrow-down ai1wm-icon-alone"></i>
+											<a href="<?php echo ai1wm_backup_url( array( 'archive' => esc_attr( $backup['filename'] ) ) ); ?>" class="ai1wm-button-green ai1wm-backup-download" download="<?php echo esc_attr( $backup['filename'] ); ?>">
+												<i class="ai1wm-icon-arrow-down"></i>
 												<span><?php _e( 'Download', AI1WM_PLUGIN_NAME ); ?></span>
 											</a>
-											<a href="#" data-archive="<?php echo esc_attr( $backup['filename'] ); ?>" class="ai1wm-button-gray ai1wm-button-alone ai1wm-backup-restore">
-												<i class="ai1wm-icon-cloud-upload ai1wm-icon-alone"></i>
+											<a href="#" data-archive="<?php echo esc_attr( $backup['filename'] ); ?>" class="ai1wm-button-gray ai1wm-backup-restore">
+												<i class="ai1wm-icon-cloud-upload"></i>
 												<span><?php _e( 'Restore', AI1WM_PLUGIN_NAME ); ?></span>
 											</a>
-											<a href="#" data-archive="<?php echo esc_attr( $backup['filename'] ); ?>" class="ai1wm-button-red ai1wm-button-alone ai1wm-backup-delete">
-												<i class="ai1wm-icon-close ai1wm-icon-alone"></i>
+											<a href="#" data-archive="<?php echo esc_attr( $backup['filename'] ); ?>" class="ai1wm-button-red ai1wm-backup-delete">
+												<i class="ai1wm-icon-close"></i>
 												<span><?php _e( 'Delete', AI1WM_PLUGIN_NAME ); ?></span>
 											</a>
 										</td>
@@ -91,7 +115,7 @@
 								<?php _e( 'There are no backups available at this time, why not create a new one?', AI1WM_PLUGIN_NAME ); ?>
 							</p>
 							<p>
-								<a href="<?php echo network_admin_url( 'admin.php?page=site-migration-export' ); ?>" class="ai1wm-button-green">
+								<a href="<?php echo esc_url( network_admin_url( 'admin.php?page=ai1wm_export' ) ); ?>" class="ai1wm-button-green">
 									<i class="ai1wm-icon-export"></i>
 									<?php _e( 'Create backup', AI1WM_PLUGIN_NAME ); ?>
 								</a>

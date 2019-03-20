@@ -8,10 +8,10 @@ Contributors:      flixos90, gidomanders
 Donate link:       https://leaves-and-love.net/wordpress-plugins/
 Requires at least: 3.6
 Tested up to:      4.9
-Stable tag:        1.4.7
-Version:           1.4.7
-License:           GNU General Public License v3
-License URI:       http://www.gnu.org/licenses/gpl-3.0.html
+Stable tag:        1.4.8
+Version:           1.4.8
+License:           GNU General Public License v2 (or later)
+License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Tags:              contact form 7, wpcf7, bootstrap, bootstrap 3, bootstrap framework, addon, contact form 7 addon, contact form, cf7bs
 
 This plugin modifies the output of the popular Contact Form 7 plugin to be styled in compliance with themes using the Bootstrap CSS framework.
@@ -110,6 +110,12 @@ You can also contribute to the plugin by translating it. Simply visit [translate
 3. A warning alert as displayed by Bootstrap for Contact Form 7
 
 == Changelog ==
+
+= 1.4.8 =
+* Added: support for input groups for number tags
+* Added: support for conditional loading of styles and scripts
+* Enhanced: Labels now allow basic inline HTML markup
+* Fixed: Acceptance validation not showing message
 
 = 1.4.7 =
 * Fixed: plugin compatibility with Contact Form 7 version 5.0 acceptance checkbox triggering submit button
